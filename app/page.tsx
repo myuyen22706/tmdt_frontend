@@ -1,69 +1,170 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState } from "react";
+import Navbar from "@/components/Navbar";
+import HeroBanner from "@/components/HeroBanner";
+import MartialCategoryGrid from "@/components/MartialCategoryGrid";
+import FlashSaleSection from "@/components/FlashSaleSection";
+import ProductCatalogSection, { ProductItem } from "@/components/ProductCatalogSection";
+import DojoB2BSection from "@/components/DojoB2BSection";
+import BlogSection from "@/components/BlogSection";
+import Footer from "@/components/Footer";
+import SizeAdvisorModal from "@/components/SizeAdvisorModal";
+import CartDrawer, { CartItemType } from "@/components/CartDrawer";
+import FloatingWidgets from "@/components/FloatingWidgets";
+
+export default function HomePage() {
+  // Trạng thái giỏ hàng
+  const [cartItems, setCartItems] = useState<CartItemType[]>([
+    {
+      id: "cart-item-default",
+      productId: "prod-vov-1",
+      name: "Võ Phục Vovinam Tiêu Chuẩn (Kaki Cotton)",
+      price: 240000,
+      size: "Size 4 (M)",
+      quantity: 1,
+      isEmbroidered: true,
+      embroideredName: "Nguyễn Văn Tuấn",
+      embroideryFee: 20000,
+    },
+  ]);
+
+  // Trạng thái Drawer và Modal
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isAdvisorOpen, setIsAdvisorOpen] = useState(false);
+  const [selectedMartialArt, setSelectedMartialArt] = useState<string>("all");
+
+  // Xử lý thêm vào giỏ
+  const handleAddToCart = (
+    product: any,
+    size: string,
+    isEmbroidered: boolean = false,
+    embroideredName?: string
+  ) => {
+    const newItem: CartItemType = {
+      id: `cart-${Date.now()}`,
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      size: size,
+      quantity: 1,
+      isEmbroidered: isEmbroidered,
+      embroideredName: embroideredName,
+      embroideryFee: isEmbroidered ? 20000 : 0,
+    };
+    setCartItems((prev) => [...prev, newItem]);
+    setIsCartOpen(true);
+  };
+
+  // Cập nhật số lượng
+  const handleUpdateQuantity = (id: string, delta: number) => {
+    setCartItems((prev) =>
+      prev
+        .map((item) => {
+          if (item.id === id) {
+            const newQty = item.quantity + delta;
+            return newQty > 0 ? { ...item, quantity: newQty } : null;
+          }
+          return item;
+        })
+        .filter(Boolean) as CartItemType[]
+    );
+  };
+
+  // Xóa sản phẩm
+  const handleRemoveItem = (id: string) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  // Làm sạch giỏ sau khi đặt hàng
+  const handleClearCart = () => {
+    setCartItems([]);
+  };
+
+  // Chọn môn võ từ hàng Icon trên để lọc xuống catalog
+  const handleSelectCategory = (martialArt?: string) => {
+    if (martialArt) {
+      setSelectedMartialArt(martialArt);
+      const catalogEl = document.getElementById("products-catalog");
+      if (catalogEl) {
+        catalogEl.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-blue-600 selection:text-white">
+      {/* 1. Header & Navigation */}
+      <Navbar
+        cartCount={totalCartCount}
+        onOpenCart={() => setIsCartOpen(true)}
+        onOpenAdvisor={() => setIsAdvisorOpen(true)}
+      />
+
+      {/* Main Content Sections */}
+      <main className="flex-1">
+        {/* 2. Hero Banner to dùng vovi.jpg & style vi_du.png */}
+        <HeroBanner onOpenAdvisor={() => setIsAdvisorOpen(true)} />
+
+        {/* 3. Lối tắt theo Môn võ (Hàng 8 ô icon như vidu_2.png) */}
+        <MartialCategoryGrid
+          onSelectCategory={handleSelectCategory}
+          selectedMartialArt={selectedMartialArt}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+        {/* 4. 'Bão Deal' Giảm Giá với Đồng Hồ Đếm Ngược (vidu_2.png) */}
+        <FlashSaleSection
+          onAddToCart={handleAddToCart}
+          onOpenAdvisor={() => setIsAdvisorOpen(true)}
+        />
+
+        {/* 5. ⭐ USP #2: Danh mục Võ Phục & Bộ Lọc Môn Võ + Cấp Đai */}
+        <ProductCatalogSection
+          onAddToCart={handleAddToCart}
+          onOpenAdvisor={() => setIsAdvisorOpen(true)}
+          selectedMartialArtProp={selectedMartialArt}
+        />
+
+        {/* 6. ⭐ USP #3: Khối Đặt Đồng Phục Võ Đường / Huấn Luyện Viên (B2B2C) */}
+        <DojoB2BSection />
+
+        {/* 7. Blog & Hướng dẫn kỹ thuật võ đạo */}
+        <BlogSection />
       </main>
+
+      {/* 8. Footer chuẩn nhận diện thương hiệu */}
+      <Footer />
+
+      {/* 9. ⭐ USP #1: Modal Công Cụ Tư Vấn Size Thông Minh (AI) */}
+      <SizeAdvisorModal
+        isOpen={isAdvisorOpen}
+        onClose={() => setIsAdvisorOpen(false)}
+        onSelectSizeForCart={(recommendedSize) => {
+          handleAddToCart(
+            {
+              id: "prod-vov-recommended",
+              name: "Võ Phục Vovinam Tiêu Chuẩn (Đã tư vấn size)",
+              price: 240000,
+            },
+            recommendedSize
+          );
+        }}
+      />
+
+      {/* 10. Drawer Mini-Cart slide-over */}
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+        onClearCart={handleClearCart}
+      />
+
+      {/* 11. Các nút hành động nổi (Floating Widgets) */}
+      <FloatingWidgets onOpenAdvisor={() => setIsAdvisorOpen(true)} />
     </div>
   );
 }
