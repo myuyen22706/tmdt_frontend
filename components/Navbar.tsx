@@ -22,12 +22,18 @@ interface NavbarProps {
   cartCount: number;
   onOpenCart: () => void;
   onOpenAdvisor: () => void;
+  onOpenAuth?: () => void;
+  user?: any;
+  onLogout?: () => void;
 }
 
 export default function Navbar({
   cartCount,
   onOpenCart,
   onOpenAdvisor,
+  onOpenAuth,
+  user,
+  onLogout,
 }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -128,17 +134,43 @@ export default function Navbar({
             </div>
 
             {/* Tài khoản */}
-            <div className="flex items-center gap-2 text-xs cursor-pointer text-slate-300 hover:text-white transition-colors">
-              <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center border border-slate-700">
-                <User className="w-4 h-4 text-slate-300" />
+            {user ? (
+              <div className="flex items-center gap-2 text-xs text-slate-300">
+                <div className="w-9 h-9 rounded-xl bg-red-600/30 text-red-400 flex items-center justify-center border border-red-500/40">
+                  <User className="w-4 h-4" />
+                </div>
+                <div className="hidden sm:flex flex-col text-left leading-tight">
+                  <span className="text-[10px] text-slate-400 flex items-center gap-1">
+                    {user.role === "admin" && <span className="bg-red-600 text-white px-1 rounded text-[9px] font-bold">ADMIN</span>}
+                    {user.role === "coach" && <span className="bg-amber-600 text-white px-1 rounded text-[9px] font-bold">HLV</span>}
+                    {user.role === "staff" && <span className="bg-blue-600 text-white px-1 rounded text-[9px] font-bold">STAFF</span>}
+                    {user.full_name || "Thành viên"}
+                  </span>
+                  <button
+                    onClick={onLogout}
+                    className="font-medium text-[11px] text-red-400 hover:text-red-300 transition-colors text-left cursor-pointer"
+                  >
+                    Đăng xuất
+                  </button>
+                </div>
               </div>
-              <div className="hidden sm:flex flex-col text-left leading-tight">
-                <span className="text-[10px] text-slate-400">Tài khoản</span>
-                <span className="font-semibold text-xs flex items-center">
-                  Đăng nhập
-                </span>
-              </div>
-            </div>
+            ) : (
+              <button
+                type="button"
+                onClick={onOpenAuth}
+                className="flex items-center gap-2 text-xs cursor-pointer text-slate-300 hover:text-white transition-colors group bg-transparent border-none p-0"
+              >
+                <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center border border-slate-700 group-hover:border-slate-500 transition-colors">
+                  <User className="w-4 h-4 text-slate-300 group-hover:text-white" />
+                </div>
+                <div className="hidden sm:flex flex-col text-left leading-tight">
+                  <span className="text-[10px] text-slate-400">Tài khoản</span>
+                  <span className="font-semibold text-xs flex items-center text-white group-hover:text-red-400 transition-colors">
+                    Đăng nhập
+                  </span>
+                </div>
+              </button>
+            )}
 
             {/* Giỏ hàng với Badge */}
             <button

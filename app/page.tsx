@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import HeroBanner from "@/components/HeroBanner";
 import MartialCategoryGrid from "@/components/MartialCategoryGrid";
@@ -12,8 +12,29 @@ import Footer from "@/components/Footer";
 import SizeAdvisorModal from "@/components/SizeAdvisorModal";
 import CartDrawer, { CartItemType } from "@/components/CartDrawer";
 import FloatingWidgets from "@/components/FloatingWidgets";
+import AuthModal from "@/components/AuthModal";
 
 export default function HomePage() {
+  // Trạng thái người dùng đăng nhập
+  const [user, setUser] = useState<any>(null);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+
+  useEffect(() => {
+    try {
+      const savedUser = localStorage.getItem("user_info");
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user_info");
+    setUser(null);
+  };
   // Trạng thái giỏ hàng
   const [cartItems, setCartItems] = useState<CartItemType[]>([
     {
@@ -101,6 +122,9 @@ export default function HomePage() {
         cartCount={totalCartCount}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenAdvisor={() => setIsAdvisorOpen(true)}
+        onOpenAuth={() => setIsAuthOpen(true)}
+        user={user}
+        onLogout={handleLogout}
       />
 
       {/* Main Content Sections */}
@@ -165,6 +189,13 @@ export default function HomePage() {
 
       {/* 11. Nút hành động nổi */}
       <FloatingWidgets onOpenAdvisor={() => setIsAdvisorOpen(true)} />
+
+      {/* 12. Modal Đăng nhập / Đăng ký tài khoản (F01) */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onLoginSuccess={(u) => setUser(u)}
+      />
     </div>
   );
 }
