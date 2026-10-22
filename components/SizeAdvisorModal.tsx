@@ -84,30 +84,30 @@ export default function SizeAdvisorModal({
   const result = calculateSize();
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden relative flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/60 backdrop-blur-xs">
+      <div className="bg-white rounded-2xl max-w-xl w-full shadow-xl border border-slate-200 overflow-hidden relative flex flex-col max-h-[92vh]">
         
         {/* HEADER MODAL */}
-        <div className="bg-gradient-to-r from-[#002f5e] via-blue-900 to-indigo-900 text-white p-5 flex items-center justify-between relative">
+        <div className="bg-slate-900 text-white p-5 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-yellow-400 text-slate-950 flex items-center justify-center shadow-lg">
-              <Compass className="w-6 h-6 text-red-700 animate-spin-slow" />
+            <div className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400">
+              <Compass className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-yellow-400 font-black text-[11px] uppercase tracking-wider block">
-                ⭐ Tính Năng Điểm Nhấn Độc Quyền
+              <span className="text-slate-400 font-medium text-[11px] uppercase tracking-wider block">
+                Bảng tính đo form
               </span>
-              <h2 className="text-lg sm:text-xl font-black text-white">
-                Công Cụ Tư Vấn Size Võ Phục Thông Minh
+              <h2 className="text-base sm:text-lg font-bold text-white">
+                Tư Vấn Size Võ Phục Chuẩn Xác
               </h2>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Đóng"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
@@ -116,24 +116,24 @@ export default function SizeAdvisorModal({
           
           {/* 1. CHỌN MÔN VÕ */}
           <div>
-            <label className="text-xs font-black uppercase text-slate-600 block mb-2">
-              1. Chọn Môn Võ Thuật:
+            <label className="text-xs font-semibold text-slate-700 block mb-2">
+              1. Môn võ thuật theo học:
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {[
-                { id: "vovinam", name: "Vovinam", color: "border-blue-600 text-blue-800 bg-blue-50" },
-                { id: "taekwondo", name: "Taekwondo", color: "border-red-600 text-red-800 bg-red-50" },
-                { id: "karate", name: "Karate", color: "border-slate-800 text-slate-900 bg-slate-50" },
-                { id: "vo_co_truyen", name: "Cổ Truyền", color: "border-amber-600 text-amber-800 bg-amber-50" },
+                { id: "vovinam", name: "Vovinam" },
+                { id: "taekwondo", name: "Taekwondo" },
+                { id: "karate", name: "Karatedo" },
+                { id: "vo_co_truyen", name: "Võ Cổ Truyền" },
               ].map((m) => (
                 <button
                   key={m.id}
                   type="button"
                   onClick={() => setMartialArt(m.id)}
-                  className={`py-2 px-3 rounded-xl border text-xs font-bold transition-all text-center ${
+                  className={`py-2 px-3 rounded-xl border text-xs font-medium transition-all text-center cursor-pointer ${
                     martialArt === m.id
-                      ? `${m.color} ring-2 ring-blue-500/30 shadow-xs font-black`
-                      : "border-slate-200 text-slate-600 hover:border-slate-300"
+                      ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                      : "border-slate-200 text-slate-600 hover:bg-slate-50"
                   }`}
                 >
                   {m.name}
@@ -145,10 +145,10 @@ export default function SizeAdvisorModal({
           {/* 2. CHIỀU CAO & CÂN NẶNG */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Chiều cao */}
-            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
               <div className="flex justify-between items-center mb-1.5">
-                <span className="text-xs font-bold text-slate-700">Chiều cao:</span>
-                <span className="text-base font-black text-blue-700">{heightCm} cm</span>
+                <span className="text-xs font-semibold text-slate-700">Chiều cao:</span>
+                <span className="text-sm font-bold text-slate-900">{heightCm} cm</span>
               </div>
               <input
                 type="range"
@@ -156,7 +156,7 @@ export default function SizeAdvisorModal({
                 max="195"
                 value={heightCm}
                 onChange={(e) => setHeightCm(Number(e.target.value))}
-                className="w-full accent-blue-600 cursor-pointer"
+                className="w-full accent-slate-900 cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-slate-400 mt-1">
                 <span>100 cm (Trẻ em)</span>
@@ -166,10 +166,10 @@ export default function SizeAdvisorModal({
             </div>
 
             {/* Cân nặng */}
-            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
               <div className="flex justify-between items-center mb-1.5">
-                <span className="text-xs font-bold text-slate-700">Cân nặng:</span>
-                <span className="text-base font-black text-red-600">{weightKg} kg</span>
+                <span className="text-xs font-semibold text-slate-700">Cân nặng:</span>
+                <span className="text-sm font-bold text-slate-900">{weightKg} kg</span>
               </div>
               <input
                 type="range"
@@ -177,7 +177,7 @@ export default function SizeAdvisorModal({
                 max="105"
                 value={weightKg}
                 onChange={(e) => setWeightKg(Number(e.target.value))}
-                className="w-full accent-red-600 cursor-pointer"
+                className="w-full accent-slate-900 cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-slate-400 mt-1">
                 <span>18 kg</span>
@@ -191,23 +191,23 @@ export default function SizeAdvisorModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Vóc dáng */}
             <div>
-              <label className="text-xs font-black uppercase text-slate-600 block mb-2">
-                Dáng người thực tế:
+              <label className="text-xs font-semibold text-slate-700 block mb-2">
+                Thể trạng người mặc:
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {[
                   { id: "lean", name: "Gầy" },
-                  { id: "standard", name: "Vừa vặn" },
+                  { id: "standard", name: "Cân đối" },
                   { id: "bulky", name: "Đậm người" },
                 ].map((b) => (
                   <button
                     key={b.id}
                     type="button"
                     onClick={() => setBodyBuild(b.id)}
-                    className={`py-2 px-2 rounded-xl border text-xs font-bold transition-all text-center ${
+                    className={`py-2 px-1 text-xs rounded-xl border font-medium transition-all text-center cursor-pointer ${
                       bodyBuild === b.id
-                        ? "border-blue-600 bg-blue-600 text-white shadow-xs"
-                        : "border-slate-200 text-slate-600 hover:bg-slate-100"
+                        ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                        : "border-slate-200 text-slate-600 hover:bg-slate-50"
                     }`}
                   >
                     {b.name}
@@ -218,75 +218,75 @@ export default function SizeAdvisorModal({
 
             {/* Tùy chọn mua rộng cho trẻ em */}
             <div className="flex items-center">
-              <label className="flex items-start gap-2.5 bg-yellow-50/80 border border-yellow-200 p-3 rounded-2xl cursor-pointer hover:bg-yellow-100/70 transition-colors w-full">
+              <label className="flex items-start gap-2.5 bg-slate-50 border border-slate-200 p-3 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors w-full">
                 <input
                   type="checkbox"
                   checked={isChildBuffer}
                   onChange={(e) => setIsChildBuffer(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 text-blue-600 rounded focus:ring-yellow-400"
+                  className="mt-0.5 w-4 h-4 text-slate-900 rounded accent-slate-900"
                 />
                 <div className="text-xs">
-                  <span className="font-bold text-amber-900 block">
-                    Mua rộng 1 size cho trẻ em
+                  <span className="font-semibold text-slate-900 block">
+                    Tính trừ hao cho trẻ em
                   </span>
-                  <span className="text-slate-600 text-[11px]">
-                    Cộng thêm trừ hao cho võ sinh nhí đang tuổi phát triển.
+                  <span className="text-slate-500 text-[11px]">
+                    Tự động cộng 1 size cho bé đang tuổi phát triển.
                   </span>
                 </div>
               </label>
             </div>
           </div>
 
-          {/* KẾT QUẢ TƯ VẤN (TỰ ĐỘNG CẬP NHẬT TRỰC QUAN) */}
-          <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-amber-50 rounded-2xl p-4 sm:p-5 border-2 border-blue-200 relative overflow-hidden shadow-inner">
+          {/* KẾT QUẢ TƯ VẤN */}
+          <div className="bg-slate-50 rounded-xl p-4 sm:p-5 border border-slate-200 relative overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               
               {/* Size chính đề xuất */}
               <div className="space-y-1">
-                <span className="text-xs font-black uppercase text-blue-800 tracking-wider flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-yellow-500 fill-yellow-500" /> KẾT QUẢ ĐỀ XUẤT CHUẨN:
+                <span className="text-[11px] font-semibold uppercase text-slate-500 tracking-wider">
+                  Cỡ size khuyến nghị:
                 </span>
-                <div className="text-2xl sm:text-3xl font-black text-blue-700 flex items-baseline gap-2">
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 flex items-baseline gap-2">
                   <span>{result.recommended}</span>
                   <span className="text-xs font-normal text-slate-500">
                     (Dự phòng: <strong>{result.backup}</strong>)
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 leading-snug pt-1">
+                <p className="text-xs text-slate-600 leading-relaxed pt-1">
                   {result.note}
                 </p>
               </div>
 
-              {/* Ảnh minh họa mau_1.jpg */}
-              <div className="w-20 h-20 bg-white rounded-xl shadow border border-slate-200 p-1 flex-shrink-0 self-center">
+              {/* Ảnh minh họa */}
+              <div className="w-16 h-16 bg-white rounded-xl border border-slate-200 p-1 flex-shrink-0 self-center">
                 <Image
                   src="/mau_1.jpg"
                   alt="Võ phục mẫu"
-                  width={80}
-                  height={80}
+                  width={64}
+                  height={64}
                   className="w-full h-full object-contain"
                 />
               </div>
             </div>
 
             {/* Cam kết đổi size miễn phí */}
-            <div className="mt-4 pt-3 border-t border-blue-200/60 flex items-center gap-2 text-xs text-emerald-800 font-bold">
+            <div className="mt-3 pt-3 border-t border-slate-200 flex items-center gap-1.5 text-xs text-slate-600">
               <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-              <span>Chính sách: Đổi size miễn phí 1 lần trong 7 ngày nếu không vừa!</span>
+              <span>Chính sách: Đổi size miễn phí trong 7 ngày nếu mặc không vừa!</span>
             </div>
           </div>
 
         </div>
 
         {/* FOOTER MODAL & NÚT HÀNH ĐỘNG */}
-        <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
-          <span className="text-xs text-slate-500">
-            Dữ liệu tính toán từ bảng size quy chuẩn của Liên đoàn
+        <div className="p-4 bg-white border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <span className="text-xs text-slate-400">
+            Dữ liệu quy chuẩn theo thông số kích cỡ Liên đoàn
           </span>
           <div className="flex items-center gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors"
+              className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer"
             >
               Đóng
             </button>
@@ -295,10 +295,10 @@ export default function SizeAdvisorModal({
                 if (onSelectSizeForCart) onSelectSizeForCart(result.recommended);
                 onClose();
               }}
-              className="px-5 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-black uppercase tracking-wider shadow-md hover:shadow-lg flex items-center gap-2 transition-transform hover:scale-102"
+              className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-blue-700 active:scale-[0.98] text-white text-xs font-semibold tracking-wide shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
             >
-              <span>Chọn Size Này Cho Đơn Hàng</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Áp dụng size này</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

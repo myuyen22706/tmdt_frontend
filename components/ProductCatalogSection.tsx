@@ -221,38 +221,38 @@ export default function ProductCatalogSection({
   };
 
   return (
-    <section id="products-catalog" className="py-12 bg-white">
+    <section id="products-catalog" className="py-14 bg-white border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* HEADER SECTION */}
-        <div className="text-center max-w-3xl mx-auto mb-8">
-          <span className="text-xs font-black uppercase tracking-widest text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-            ⭐ Tính Năng Điểm Nhấn #2: Lọc Môn Võ & Cấp Đai
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="text-xs font-semibold uppercase tracking-widest text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+            Trang phục thi đấu & luyện tập
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-slate-900 mt-2">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-3">
             Võ Phục & Phụ Kiện Chuẩn Quy Cách
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Chọn môn võ và cấp đai của bạn để tìm võ phục chuẩn form, bền đẹp, được bảo hành đổi size miễn phí.
+          <p className="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
+            Form chuẩn theo quy định của các Liên đoàn võ thuật. Vải dệt Kaki Cotton thoáng khí, đòn thế uyển chuyển và bền bỉ trong từng buổi tập.
           </p>
         </div>
 
-        {/* 1. TABS CHỌN MÔN VÕ (USP #2) */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+        {/* 1. TABS CHỌN MÔN VÕ */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
           {[
-            { id: "all", label: "🥋 Tất Cả Môn Võ" },
-            { id: "vovinam", label: "Vovinam (Việt Võ Đạo)" },
+            { id: "all", label: "Tất Cả Môn Võ" },
+            { id: "vovinam", label: "Vovinam" },
             { id: "taekwondo", label: "Taekwondo (WTF)" },
-            { id: "karate", label: "Karatedo (Kata/Kumite)" },
+            { id: "karate", label: "Karatedo" },
             { id: "vo_co_truyen", label: "Võ Cổ Truyền" },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setSelectedMartialArt(tab.id)}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 selectedMartialArt === tab.id
-                  ? "bg-blue-700 text-white shadow-md shadow-blue-700/20 scale-102"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  ? "bg-slate-900 text-white shadow-sm"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
               }`}
             >
               {tab.label}
@@ -260,18 +260,18 @@ export default function ProductCatalogSection({
           ))}
         </div>
 
-        {/* 2. THANH BỘ LỌC CẤP ĐAI & LOẠI SẢN PHẨM (USP #2) */}
-        <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 mb-8 flex flex-wrap items-center justify-between gap-4">
+        {/* 2. THANH BỘ LỌC CẤP ĐAI & SẮP XẾP */}
+        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 mb-8 flex flex-wrap items-center justify-between gap-3 text-xs">
           
           {/* Lọc theo Cấp Đai */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-bold text-slate-700 flex items-center gap-1">
-              <Tag className="w-3.5 h-3.5 text-red-600" /> Cấp đai:
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="font-semibold text-slate-700 flex items-center gap-1 mr-1">
+              <Tag className="w-3.5 h-3.5 text-slate-400" /> Cấp đai:
             </span>
             {[
               { id: "all", label: "Tất cả" },
-              { id: "lam_dai", label: "Lam đai (Xanh)" },
-              { id: "hoang_dai", label: "Hoàng đai (Vàng)" },
+              { id: "lam_dai", label: "Lam đai" },
+              { id: "hoang_dai", label: "Hoàng đai" },
               { id: "dai_do", label: "Đai đỏ" },
               { id: "dai_den", label: "Đai đen" },
               { id: "dai_trang", label: "Đai trắng" },
@@ -279,9 +279,9 @@ export default function ProductCatalogSection({
               <button
                 key={b.id}
                 onClick={() => setSelectedBeltRank(b.id)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors ${
+                className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                   selectedBeltRank === b.id
-                    ? "bg-red-600 text-white shadow-xs font-bold"
+                    ? "bg-slate-900 text-white font-semibold"
                     : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
                 }`}
               >
@@ -291,12 +291,12 @@ export default function ProductCatalogSection({
           </div>
 
           {/* Sắp xếp */}
-          <div className="flex items-center gap-2 ml-auto text-xs">
+          <div className="flex items-center gap-2 ml-auto">
             <span className="text-slate-500 font-medium">Sắp xếp:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 font-semibold focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-slate-700 font-medium focus:outline-none focus:ring-1 focus:ring-slate-400 cursor-pointer"
             >
               <option value="popular">Bán chạy nhất</option>
               <option value="price_asc">Giá: Thấp đến Cao</option>
@@ -306,88 +306,72 @@ export default function ProductCatalogSection({
 
         </div>
 
-        {/* 3. LƯỚI SẢN PHẨM CHÍNH (SỬ DỤNG HÌNH MẪU mau_1.jpg) */}
+        {/* 3. LƯỚI SẢN PHẨM CHÍNH - NÚT MUA HIỆN LUÔN */}
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
-            <p className="text-slate-500 text-sm">Không tìm thấy sản phẩm phù hợp với bộ lọc đã chọn.</p>
+          <div className="text-center py-14 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+            <p className="text-slate-500 text-xs sm:text-sm">Không tìm thấy sản phẩm phù hợp với bộ lọc đã chọn.</p>
             <button
               onClick={() => {
                 setSelectedMartialArt("all");
                 setSelectedBeltRank("all");
               }}
-              className="mt-3 text-xs font-bold text-blue-600 hover:underline"
+              className="mt-3 text-xs font-semibold text-slate-900 hover:underline cursor-pointer"
             >
               Đặt lại bộ lọc
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {filteredProducts.map((prod) => (
               <div
                 key={prod.id}
-                className="group bg-white rounded-2xl border border-slate-200 hover:border-blue-400 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden relative"
+                className="group bg-white rounded-2xl border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden"
               >
-                {/* Badge Môn võ & Cấp đai */}
-                <div className="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1">
-                  <span className="bg-blue-700 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded shadow">
-                    {prod.martial_art_label}
-                  </span>
-                  {prod.belt_rank_label && (
-                    <span className="bg-yellow-400 text-slate-950 text-[10px] font-black uppercase px-2 py-0.5 rounded shadow">
-                      {prod.belt_rank_label}
+                {/* HÌNH ẢNH MẪU SẢN PHẨM */}
+                <div className="relative w-full h-56 bg-slate-50 flex items-center justify-center p-4 overflow-hidden border-b border-slate-100">
+                  {/* Badge Môn võ & Cấp đai */}
+                  <div className="absolute top-2.5 left-2.5 z-10 flex flex-wrap gap-1">
+                    <span className="bg-slate-900 text-white text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded shadow-xs">
+                      {prod.martial_art_label}
+                    </span>
+                    {prod.belt_rank_label && (
+                      <span className="bg-amber-100 text-amber-900 border border-amber-200/80 text-[10px] font-semibold uppercase px-2 py-0.5 rounded">
+                        {prod.belt_rank_label}
+                      </span>
+                    )}
+                  </div>
+
+                  {prod.isCustomizable && (
+                    <span className="absolute top-2.5 right-2.5 z-10 text-[10px] font-medium text-slate-600 bg-white/95 border border-slate-200 px-2 py-0.5 rounded shadow-xs">
+                      Thêu tên
                     </span>
                   )}
-                </div>
 
-                {/* HÌNH ẢNH MẪU SẢN PHẨM: mau_1.jpg */}
-                <div className="relative w-full h-56 bg-slate-50 flex items-center justify-center p-4 overflow-hidden border-b border-slate-100">
                   <Image
                     src="/mau_1.jpg"
                     alt={prod.name}
                     fill
-                    className="object-contain p-2 group-hover:scale-108 transition-transform duration-500"
+                    className="object-contain p-4 group-hover:scale-104 transition-transform duration-300"
                   />
-                  
-                  {/* Nút hành động nhanh khi hover */}
-                  <div className="absolute inset-x-3 bottom-3 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      onClick={() => handleOpenQuickAdd(prod)}
-                      className="flex-1 py-2 bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs uppercase rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-transform hover:scale-102"
-                    >
-                      <ShoppingBag className="w-3.5 h-3.5" /> Thêm giỏ
-                    </button>
-                    <button
-                      onClick={onOpenAdvisor}
-                      className="px-3 py-2 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black text-xs uppercase rounded-xl shadow-md flex items-center gap-1 transition-transform hover:scale-102"
-                      title="Tư vấn size phù hợp"
-                    >
-                      <Compass className="w-3.5 h-3.5 text-red-700" /> Size
-                    </button>
-                  </div>
                 </div>
 
                 {/* THÔNG TIN CHI TIẾT */}
-                <div className="p-4 flex-1 flex flex-col justify-between space-y-2.5">
+                <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                   <div>
-                    {/* Đánh giá sao */}
-                    <div className="flex items-center gap-1 mb-1">
-                      <div className="flex items-center text-yellow-400">
-                        <Star className="w-3.5 h-3.5 fill-yellow-400" />
-                        <Star className="w-3.5 h-3.5 fill-yellow-400" />
-                        <Star className="w-3.5 h-3.5 fill-yellow-400" />
-                        <Star className="w-3.5 h-3.5 fill-yellow-400" />
-                        <Star className="w-3.5 h-3.5 fill-yellow-400" />
+                    {/* Đánh giá sao & Thông tin size */}
+                    <div className="flex items-center justify-between text-xs mb-1.5">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                        <span className="font-semibold text-slate-800 text-[11px]">{prod.rating}</span>
+                        <span className="text-slate-400 text-[11px]">({prod.reviewsCount})</span>
                       </div>
-                      <span className="text-[11px] font-bold text-slate-700">
-                        {prod.rating}
-                      </span>
-                      <span className="text-[11px] text-slate-400">
-                        ({prod.reviewsCount})
+                      <span className="text-[11px] text-slate-400 font-medium">
+                        {prod.sizes.length} cỡ size
                       </span>
                     </div>
 
                     {/* Tên sản phẩm */}
-                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2">
+                    <h3 className="text-sm font-semibold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
                       {prod.name}
                     </h3>
 
@@ -397,23 +381,43 @@ export default function ProductCatalogSection({
                     </p>
                   </div>
 
-                  {/* Giá tiền */}
-                  <div className="pt-2 border-t border-slate-100">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-lg font-black text-red-600">
-                        {prod.price.toLocaleString("vi-VN")}₫
-                      </span>
-                      <span className="text-xs text-slate-400 line-through">
-                        {prod.originalPrice.toLocaleString("vi-VN")}₫
+                  {/* PHẦN GIÁ TIỀN & NÚT MUA HIỆN LUÔN */}
+                  <div className="pt-3 border-t border-slate-100 space-y-2.5">
+                    <div className="flex items-baseline justify-between">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                          {prod.price.toLocaleString("vi-VN")}₫
+                        </span>
+                        <span className="text-xs text-slate-400 line-through">
+                          {prod.originalPrice.toLocaleString("vi-VN")}₫
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-semibold text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded">
+                        -{Math.round(((prod.originalPrice - prod.price) / prod.originalPrice) * 100)}%
                       </span>
                     </div>
 
-                    {/* Tag thêu tên theo yêu cầu */}
-                    {prod.isCustomizable && (
-                      <span className="text-[10px] text-blue-700 font-semibold bg-blue-50 px-1.5 py-0.5 rounded mt-1.5 inline-block">
-                        ✨ Hỗ trợ thêu tên võ sinh
-                      </span>
-                    )}
+                    {/* NÚT MUA VÀ NÚT TƯ VẤN SIZE HIỆN SẴN LUÔN - KHÔNG BỊ ẨN */}
+                    <div className="flex items-center gap-2 pt-0.5">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenQuickAdd(prod)}
+                        className="flex-1 py-2 px-3 bg-slate-900 hover:bg-blue-700 active:scale-[0.98] text-white font-semibold text-xs rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <ShoppingBag className="w-3.5 h-3.5 text-white" />
+                        <span>Thêm vào giỏ</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={onOpenAdvisor}
+                        className="p-2 bg-slate-100 hover:bg-slate-200 active:scale-[0.98] text-slate-700 rounded-xl transition-colors cursor-pointer flex-shrink-0"
+                        title="Tư vấn size phù hợp"
+                        aria-label="Tư vấn size"
+                      >
+                        <Compass className="w-4 h-4 text-slate-600" />
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -424,23 +428,23 @@ export default function ProductCatalogSection({
 
         {/* MODAL CHỌN SIZE & TÙY CHỌN THÊU TÊN NHANH KHI BẤM "THÊM GIỎ" */}
         {selectedProductForCart && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn">
-            <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl p-6 border border-slate-200 space-y-4">
-              <div className="flex items-start justify-between border-b pb-3">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
+            <div className="bg-white rounded-2xl max-w-md w-full shadow-xl p-5 sm:p-6 border border-slate-200 space-y-4">
+              <div className="flex items-start justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-14 h-14 bg-slate-50 rounded-xl p-1 border">
-                    <Image src="/mau_1.jpg" alt="Võ phục" width={56} height={56} className="w-full h-full object-contain" />
+                  <div className="w-12 h-12 bg-slate-50 rounded-xl p-1 border border-slate-200 flex-shrink-0">
+                    <Image src="/mau_1.jpg" alt="Võ phục" width={48} height={48} className="w-full h-full object-contain" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900 line-clamp-1">{selectedProductForCart.name}</h4>
-                    <span className="text-base font-black text-red-600">
+                    <h4 className="text-sm font-semibold text-slate-900 line-clamp-1">{selectedProductForCart.name}</h4>
+                    <span className="text-sm font-bold text-slate-900">
                       {selectedProductForCart.price.toLocaleString("vi-VN")}₫
                     </span>
                   </div>
                 </div>
                 <button
                   onClick={() => setSelectedProductForCart(null)}
-                  className="text-slate-400 hover:text-slate-700"
+                  className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
                 >
                   ✕
                 </button>
@@ -448,15 +452,27 @@ export default function ProductCatalogSection({
 
               {/* Chọn Size */}
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-2">Chọn size võ phục:</label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-semibold text-slate-700">Chọn cỡ size:</label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedProductForCart(null);
+                      onOpenAdvisor();
+                    }}
+                    className="text-[11px] text-blue-700 hover:underline flex items-center gap-1 cursor-pointer font-medium"
+                  >
+                    <Compass className="w-3 h-3" /> Chưa rõ size? Tư vấn ngay
+                  </button>
+                </div>
                 <div className="grid grid-cols-3 gap-2">
                   {selectedProductForCart.sizes.map((s) => (
                     <button
                       key={s}
                       onClick={() => setChosenSize(s)}
-                      className={`py-2 px-1 text-xs rounded-xl font-bold border transition-colors ${
+                      className={`py-2 px-1 text-xs rounded-xl font-medium border transition-colors cursor-pointer ${
                         chosenSize === s
-                          ? "bg-blue-700 text-white border-blue-700 shadow-xs"
+                          ? "bg-slate-900 text-white border-slate-900 shadow-xs"
                           : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                       }`}
                     >
@@ -468,38 +484,38 @@ export default function ProductCatalogSection({
 
               {/* Tùy chọn thêu tên võ sinh */}
               {selectedProductForCart.isCustomizable && (
-                <div className="bg-blue-50/80 p-3 rounded-2xl border border-blue-200 text-xs space-y-2">
-                  <label className="flex items-center gap-2 cursor-pointer font-bold text-blue-900">
+                <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs space-y-2">
+                  <label className="flex items-center gap-2 cursor-pointer font-semibold text-slate-800">
                     <input
                       type="checkbox"
                       checked={isEmbroidered}
                       onChange={(e) => setIsEmbroidered(e.target.checked)}
-                      className="w-4 h-4 text-blue-600 rounded"
+                      className="w-4 h-4 text-slate-900 rounded accent-slate-900"
                     />
-                    <span>Thêu tên võ sinh lên áo (+20.000₫)</span>
+                    <span>Thêu họ tên võ sinh lên áo (+20.000₫)</span>
                   </label>
                   {isEmbroidered && (
                     <input
                       type="text"
-                      placeholder="Nhập họ tên võ sinh cần thêu (VD: Nguyễn Minh Quân)..."
+                      placeholder="Nhập họ tên võ sinh (VD: Nguyễn Minh Quân)..."
                       value={embroideredName}
                       onChange={(e) => setEmbroideredName(e.target.value)}
-                      className="w-full bg-white border border-blue-300 rounded-lg px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                      className="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-900"
                     />
                   )}
                 </div>
               )}
 
               {/* Cam kết */}
-              <div className="flex items-center gap-1.5 text-[11px] text-emerald-700 font-semibold">
-                <ShieldCheck className="w-4 h-4 flex-shrink-0" />
-                <span>Cam kết đổi size miễn phí 1 lần trong 7 ngày nếu không vừa</span>
+              <div className="flex items-center gap-1.5 text-[11px] text-slate-600">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                <span>Hỗ trợ đổi size miễn phí trong 7 ngày nếu không vừa</span>
               </div>
 
               {/* Nút hoàn tất */}
               <button
                 onClick={handleConfirmAddToCart}
-                className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-black text-xs uppercase rounded-xl tracking-wider shadow-lg transition-transform hover:scale-102"
+                className="w-full py-2.5 bg-slate-900 hover:bg-blue-700 active:scale-[0.98] text-white font-semibold text-xs uppercase rounded-xl tracking-wider shadow-sm transition-all cursor-pointer"
               >
                 Xác nhận thêm vào giỏ hàng
               </button>

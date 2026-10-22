@@ -95,7 +95,7 @@ export default function HomePage() {
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-slate-900 selection:text-white">
       {/* 1. Header & Navigation */}
       <Navbar
         cartCount={totalCartCount}
@@ -105,39 +105,39 @@ export default function HomePage() {
 
       {/* Main Content Sections */}
       <main className="flex-1">
-        {/* 2. Hero Banner to dùng vovi.jpg & style vi_du.png */}
+        {/* 2. Hero Banner */}
         <HeroBanner onOpenAdvisor={() => setIsAdvisorOpen(true)} />
 
-        {/* 3. Lối tắt theo Môn võ (Hàng 8 ô icon như vidu_2.png) */}
+        {/* 3. Lối tắt theo Môn võ */}
         <MartialCategoryGrid
           onSelectCategory={handleSelectCategory}
           selectedMartialArt={selectedMartialArt}
         />
 
-        {/* 4. 'Bão Deal' Giảm Giá với Đồng Hồ Đếm Ngược (vidu_2.png) */}
+        {/* 4. Tuần lễ ưu đãi võ sinh */}
         <FlashSaleSection
           onAddToCart={handleAddToCart}
           onOpenAdvisor={() => setIsAdvisorOpen(true)}
         />
 
-        {/* 5. ⭐ USP #2: Danh mục Võ Phục & Bộ Lọc Môn Võ + Cấp Đai */}
+        {/* 5. Danh mục Võ Phục & Bộ Lọc Môn Võ + Cấp Đai */}
         <ProductCatalogSection
           onAddToCart={handleAddToCart}
           onOpenAdvisor={() => setIsAdvisorOpen(true)}
           selectedMartialArtProp={selectedMartialArt}
         />
 
-        {/* 6. ⭐ USP #3: Khối Đặt Đồng Phục Võ Đường / Huấn Luyện Viên (B2B2C) */}
+        {/* 6. Cổng Đặt Đồng Phục Võ Đường & HLV (B2B) */}
         <DojoB2BSection />
 
-        {/* 7. Blog & Hướng dẫn kỹ thuật võ đạo */}
+        {/* 7. Cẩm nang & Kiến thức võ sinh */}
         <BlogSection />
       </main>
 
-      {/* 8. Footer chuẩn nhận diện thương hiệu */}
+      {/* 8. Footer */}
       <Footer />
 
-      {/* 9. ⭐ USP #1: Modal Công Cụ Tư Vấn Size Thông Minh (AI) */}
+      {/* 9. Modal Bảng Tính & Tư Vấn Size */}
       <SizeAdvisorModal
         isOpen={isAdvisorOpen}
         onClose={() => setIsAdvisorOpen(false)}
@@ -153,7 +153,7 @@ export default function HomePage() {
         }}
       />
 
-      {/* 10. Drawer Mini-Cart slide-over */}
+      {/* 10. Drawer Giỏ Hàng mini */}
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -163,7 +163,7 @@ export default function HomePage() {
         onClearCart={handleClearCart}
       />
 
-      {/* 11. Các nút hành động nổi (Floating Widgets) */}
+      {/* 11. Nút hành động nổi */}
       <FloatingWidgets onOpenAdvisor={() => setIsAdvisorOpen(true)} />
     </div>
   );

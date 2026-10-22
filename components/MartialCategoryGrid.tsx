@@ -89,25 +89,25 @@ export default function MartialCategoryGrid({
   selectedMartialArt,
 }: MartialCategoryGridProps) {
   return (
-    <section id="martial-categories" className="py-8 md:py-12 bg-white border-b border-slate-200">
+    <section id="martial-categories" className="py-10 bg-white border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Tiêu đề mục giống vidu_2.png */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 pb-2 border-b border-slate-100">
+        {/* Tiêu đề mục */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 pb-3 border-b border-slate-100">
           <div>
-            <span className="text-xs font-bold uppercase tracking-widest text-blue-700 flex items-center gap-1.5">
-              <Medal className="w-4 h-4 text-red-600" /> Danh mục chuyên biệt
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+              Phân loại theo môn
             </span>
-            <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-slate-900 mt-1">
-              Môn Võ & Phụ Kiện Bạn Yêu Thích
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 mt-1">
+              Môn Võ & Danh Mục Trang Bị
             </h2>
           </div>
-          <span className="text-xs text-slate-500 mt-1 sm:mt-0 font-medium">
-            Chọn môn phái để xem võ phục và đai chuẩn quy cách
+          <span className="text-xs text-slate-500 mt-1 sm:mt-0 font-normal">
+            Bấm chọn để lọc nhanh võ phục và đai chuẩn quy cách
           </span>
         </div>
 
-        {/* Hàng 8 ô danh mục thiết kế chuẩn như vidu_2.png */}
+        {/* Hàng 8 ô danh mục */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4">
           {CATEGORIES.map((cat) => {
             const isSelected = selectedMartialArt === cat.martial_art_filter;
@@ -115,46 +115,38 @@ export default function MartialCategoryGrid({
               <button
                 key={cat.id}
                 onClick={() => onSelectCategory(cat.martial_art_filter, cat.category_filter)}
-                className={`group flex flex-col items-center p-3 rounded-2xl transition-all duration-300 text-center relative border ${
+                className={`group flex flex-col items-center p-3 rounded-2xl transition-all duration-200 text-center relative border cursor-pointer ${
                   isSelected
-                    ? "border-blue-600 bg-blue-50/70 shadow-md ring-2 ring-blue-500/30 scale-102"
-                    : "border-slate-200/80 bg-slate-50 hover:bg-white hover:border-blue-400 hover:shadow-lg"
+                    ? "border-slate-900 bg-slate-50 shadow-xs"
+                    : "border-slate-200/80 bg-white hover:border-slate-300 hover:shadow-sm"
                 }`}
               >
                 {/* Badge nhỏ */}
                 {cat.badge && (
-                  <span className="absolute -top-2 right-2 bg-red-600 text-white text-[9px] font-black uppercase px-1.5 py-0.5 rounded-full shadow-sm">
+                  <span className="absolute -top-2 right-2 bg-slate-900 text-white text-[9px] font-semibold uppercase px-1.5 py-0.5 rounded shadow-xs">
                     {cat.badge}
                   </span>
                 )}
 
-                {/* Vùng icon khối đa giác / hình ảnh như vidu_2.png */}
-                <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-white shadow-inner border border-slate-100 flex items-center justify-center p-2 mb-2.5 group-hover:scale-108 transition-transform overflow-hidden relative">
-                  {/* Sử dụng ảnh sản phẩm mẫu mau_1.jpg cho các môn võ phục */}
+                {/* Vùng icon */}
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-2 mb-2 group-hover:scale-104 transition-transform overflow-hidden relative">
                   <Image
                     src="/mau_1.jpg"
                     alt={cat.name}
-                    width={64}
-                    height={64}
-                    className="w-full h-full object-contain filter group-hover:contrast-105"
-                  />
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-tr ${cat.iconBg} opacity-15 mix-blend-multiply group-hover:opacity-25 transition-opacity`}
+                    width={56}
+                    height={56}
+                    className="w-full h-full object-contain"
                   />
                 </div>
 
                 {/* Tên môn võ / danh mục */}
-                <h3 className="text-xs sm:text-sm font-black text-slate-800 tracking-tight group-hover:text-blue-700 transition-colors line-clamp-1">
+                <h3 className="text-xs sm:text-sm font-semibold text-slate-900 tracking-tight group-hover:text-blue-700 transition-colors line-clamp-1">
                   {cat.name}
                 </h3>
 
                 {/* Số lượng sản phẩm */}
-                <span className="text-[11px] text-slate-500 font-medium mt-0.5">
+                <span className="text-[11px] text-slate-400 mt-0.5 font-normal">
                   {cat.count}
-                </span>
-
-                <span className="text-[10px] text-blue-600 font-bold opacity-0 group-hover:opacity-100 transition-opacity mt-1">
-                  Xem ngay →
                 </span>
               </button>
             );

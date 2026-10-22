@@ -37,22 +37,22 @@ const POSTS = [
 
 export default function BlogSection() {
   return (
-    <section className="py-12 bg-slate-50 border-t border-slate-200">
+    <section className="py-14 bg-slate-50 border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* HEADER */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 pb-3 border-b border-slate-200">
           <div>
-            <span className="text-xs font-black uppercase tracking-widest text-blue-700 flex items-center gap-1.5">
-              <BookOpen className="w-4 h-4 text-red-600" /> Cẩm nang & Kiến thức
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+              Cẩm nang võ đạo
             </span>
-            <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-slate-900 mt-1">
-              Bài Viết Hướng Dẫn Dành Cho Võ Sinh
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 mt-1">
+              Kiến Thức & Kỹ Thuật Dành Cho Võ Sinh
             </h2>
           </div>
           <Link
             href="#blog"
-            className="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1 mt-2 sm:mt-0 transition-colors"
+            className="text-xs font-semibold text-slate-900 hover:text-blue-700 flex items-center gap-1 mt-2 sm:mt-0 transition-colors"
           >
             <span>Xem tất cả bài viết</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -60,35 +60,35 @@ export default function BlogSection() {
         </div>
 
         {/* POSTS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {POSTS.map((post) => (
             <article
               key={post.id}
-              className="bg-white rounded-2xl border border-slate-200 hover:border-blue-400 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+              className="bg-white rounded-2xl border border-slate-200 hover:border-slate-300 overflow-hidden shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group"
             >
-              {/* Ảnh bài viết sử dụng vovi.jpg */}
-              <div className="relative w-full h-44 bg-slate-900 overflow-hidden">
+              {/* Ảnh bài viết */}
+              <div className="relative w-full h-44 bg-slate-950 overflow-hidden">
                 <Image
                   src="/vovi.jpg"
                   alt={post.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                  className="object-cover group-hover:scale-104 transition-transform duration-300 opacity-80"
                 />
-                <span className="absolute top-3 left-3 bg-[#002f5e] text-yellow-300 text-[10px] font-black uppercase px-2 py-0.5 rounded shadow">
+                <span className="absolute top-3 left-3 bg-slate-900/90 text-white text-[10px] font-semibold uppercase px-2 py-0.5 rounded shadow-xs border border-slate-700">
                   {post.category}
                 </span>
               </div>
 
               {/* Nội dung */}
               <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <div className="flex items-center gap-3 text-[11px] text-slate-400">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" /> {post.date}
                     </span>
                     <span>• {post.readTime}</span>
                   </div>
-                  <h3 className="text-sm font-bold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
+                  <h3 className="text-sm font-semibold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
                     {post.title}
                   </h3>
                   <p className="text-xs text-slate-500 line-clamp-3 leading-relaxed font-light">
@@ -97,11 +97,11 @@ export default function BlogSection() {
                 </div>
 
                 <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-blue-700 group-hover:underline flex items-center gap-1">
+                  <span className="text-xs font-semibold text-slate-900 group-hover:text-blue-700 flex items-center gap-1">
                     Đọc tiếp <ArrowRight className="w-3 h-3" />
                   </span>
-                  <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-semibold">
-                    Chuẩn quy cách
+                  <span className="text-[10px] text-slate-500 font-medium">
+                    Chuẩn liên đoàn
                   </span>
                 </div>
               </div>

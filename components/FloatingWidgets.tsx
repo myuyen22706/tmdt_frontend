@@ -24,14 +24,14 @@ export default function FloatingWidgets({ onOpenAdvisor }: FloatingWidgetsProps)
 
   return (
     <div className="fixed bottom-6 right-5 z-40 flex flex-col items-end gap-3 pointer-events-auto">
-      {/* Nút Tư vấn Size nổi bật */}
+      {/* Nút Bảng tính Size */}
       <button
         onClick={onOpenAdvisor}
-        className="flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-950 font-black text-xs uppercase px-4 py-3 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-transform border-2 border-white group"
-        title="Tư vấn chọn size thông minh"
+        className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs px-3.5 py-2.5 rounded-full shadow-lg hover:scale-102 active:scale-98 transition-all border border-slate-700 group cursor-pointer"
+        title="Bảng tính chọn size võ phục"
       >
-        <Compass className="w-5 h-5 text-red-700 animate-spin-slow" />
-        <span className="hidden sm:inline">Tư vấn Size (AI)</span>
+        <Compass className="w-4 h-4 text-amber-400" />
+        <span className="hidden sm:inline">Bảng tính size</span>
       </button>
 
       {/* Nút Zalo / Hỗ trợ */}

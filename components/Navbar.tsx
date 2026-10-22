@@ -33,122 +33,109 @@ export default function Navbar({
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <header className="sticky top-0 z-40 w-full shadow-sm">
-      {/* 1. TOP PROMOTION ANNOUNCEMENT BAR (Vàng & Đỏ nổi bật như vi_du.png) */}
-      <div className="bg-[#ccff00] text-slate-900 py-1.5 px-4 text-xs md:text-sm font-semibold tracking-wide border-b border-lime-400">
+    <header className="sticky top-0 z-40 w-full shadow-xs">
+      {/* 1. TOP ANNOUNCEMENT BAR */}
+      <div className="bg-slate-950 text-slate-300 py-1.5 px-4 text-xs font-medium border-b border-slate-800">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 mx-auto md:mx-0 text-center">
-            <span className="bg-red-600 text-white text-[11px] uppercase px-2 py-0.5 rounded font-black tracking-wider animate-pulse">
-              Ưu đãi độc quyền
+            <span className="bg-red-600 text-white text-[10px] uppercase px-2 py-0.5 rounded font-semibold tracking-wider">
+              Chính sách
             </span>
-            <span>
-              Giảm <strong className="text-red-700 font-extrabold">20% - 30%</strong> cho võ sinh mùa tựu trường & Đổi size miễn phí 1 lần!
+            <span className="text-slate-200">
+              Miễn phí đổi size trong 7 ngày • Chiết khấu sỉ tới 30% cho võ đường & CLB
             </span>
           </div>
-          <div className="hidden md:flex items-center gap-5 text-xs text-slate-800">
-            <span className="flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-blue-700" /> Chuẩn quy cách Liên đoàn
+          <div className="hidden md:flex items-center gap-5 text-xs text-slate-400">
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Chuẩn quy cách Liên đoàn
             </span>
-            <span className="flex items-center gap-1">
-              <Award className="w-3.5 h-3.5 text-red-600" /> Cam kết vải Kaki 100% Cotton
+            <span className="flex items-center gap-1.5">
+              <Award className="w-3.5 h-3.5 text-amber-400" /> Vải dệt thoi 100% Cotton
             </span>
           </div>
         </div>
       </div>
 
-      {/* 2. MAIN HEADER (Tông màu Xanh dương đậm / Trắng đậm chất thể thao Sudes Sport) */}
-      <div className="bg-[#002f5e] text-white py-3 px-4 transition-colors">
+      {/* 2. MAIN HEADER */}
+      <div className="bg-slate-900 text-white py-3.5 px-4 border-b border-slate-800 transition-colors">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 md:gap-6">
           
           {/* Mobile menu toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
 
           {/* BRAND LOGO */}
-          <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
-            <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-red-600 via-blue-600 to-yellow-500 flex items-center justify-center shadow-lg shadow-blue-900/50 p-0.5">
-              <div className="w-full h-full bg-[#002f5e] rounded-[10px] flex items-center justify-center font-black text-xl md:text-2xl tracking-tighter text-yellow-400 group-hover:scale-105 transition-transform">
-                VÕ
-              </div>
+          <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center font-black text-lg text-white group-hover:border-slate-500 transition-colors shadow-xs">
+              VÕ
             </div>
             <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-black italic tracking-wider leading-none text-white flex items-center">
-                VÕ<span className="text-yellow-400">SPORT</span>
+              <span className="text-xl font-extrabold tracking-tight text-white flex items-center">
+                VÕ<span className="text-red-500">SPORT</span>
               </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-blue-200">
-                Võ Phục & Phụ Kiện
+              <span className="text-[10px] uppercase font-medium tracking-widest text-slate-400">
+                Võ Phục & Trang Bị
               </span>
             </div>
           </Link>
 
-          {/* SEARCH BAR (To và rõ ràng như vidu_2.png) */}
+          {/* SEARCH BAR */}
           <div className="flex-1 max-w-2xl hidden md:block">
             <div className="relative flex items-center">
               <input
                 type="text"
-                placeholder="Tìm võ phục Vovinam, Taekwondo, Karate, đai, bảo hộ..."
+                placeholder="Tìm võ phục Vovinam, Taekwondo, Karate, Cổ Truyền, đai, bảo hộ..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white text-slate-800 placeholder-slate-400 text-sm rounded-lg pl-4 pr-12 py-2.5 focus:outline-none focus:ring-2 focus:ring-yellow-400 shadow-inner"
+                className="w-full bg-slate-800/90 text-white placeholder-slate-400 text-xs rounded-xl pl-4 pr-11 py-2.5 border border-slate-700/80 focus:outline-none focus:border-slate-400 focus:bg-slate-800 transition-all"
               />
               <button
                 type="button"
-                className="absolute right-1 top-1 bottom-1 px-3.5 bg-blue-700 hover:bg-blue-800 text-white rounded-md flex items-center justify-center transition-colors shadow-sm"
+                className="absolute right-1 top-1 bottom-1 px-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Tìm kiếm"
               >
-                <Search className="w-4 h-4 text-yellow-300" />
+                <Search className="w-3.5 h-3.5 text-slate-200" />
               </button>
             </div>
           </div>
 
           {/* RIGHT ACTION BUTTONS */}
-          <div className="flex items-center gap-3 md:gap-5 flex-shrink-0">
+          <div className="flex items-center gap-3 md:gap-4 flex-shrink-0">
             
-            {/* Nút Tư vấn Size AI (Điểm nhấn đặc biệt) */}
+            {/* Nút Tư vấn Size */}
             <button
               onClick={onOpenAdvisor}
-              className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-slate-950 font-bold text-xs uppercase px-3 py-2 rounded-lg shadow-md hover:brightness-105 transition-all animate-glow"
+              className="hidden lg:flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-medium text-xs px-3.5 py-2.5 rounded-xl border border-slate-700 hover:border-slate-600 transition-all cursor-pointer"
             >
-              <Compass className="w-4 h-4 text-red-700" />
-              <span>Tư vấn Size (AI)</span>
+              <Compass className="w-3.5 h-3.5 text-amber-400" />
+              <span>Bảng tính size</span>
             </button>
 
             {/* Hotline hỗ trợ */}
             <div className="hidden xl:flex items-center gap-2 text-left">
-              <div className="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/40">
-                <PhoneCall className="w-4 h-4" />
+              <div className="w-9 h-9 rounded-xl bg-slate-800 text-slate-300 flex items-center justify-center border border-slate-700">
+                <PhoneCall className="w-4 h-4 text-emerald-400" />
               </div>
               <div className="flex flex-col text-xs leading-tight">
-                <span className="text-slate-300">Hotline hỗ trợ:</span>
-                <strong className="text-emerald-300 text-sm font-black">1900 6868</strong>
-              </div>
-            </div>
-
-            {/* Hệ thống cửa hàng / Đối tác võ đường */}
-            <div className="hidden lg:flex items-center gap-2 text-left">
-              <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
-                <Store className="w-4 h-4 text-yellow-300" />
-              </div>
-              <div className="flex flex-col text-xs leading-tight">
-                <span className="text-slate-300">Hệ thống CLB:</span>
-                <span className="text-white font-bold text-xs">24 Võ đường</span>
+                <span className="text-slate-400 text-[11px]">Hotline:</span>
+                <strong className="text-white font-semibold">1900 6868</strong>
               </div>
             </div>
 
             {/* Tài khoản */}
-            <div className="flex items-center gap-1.5 text-xs cursor-pointer hover:text-yellow-300 transition-colors">
-              <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
-                <User className="w-4 h-4 text-white" />
+            <div className="flex items-center gap-2 text-xs cursor-pointer text-slate-300 hover:text-white transition-colors">
+              <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center border border-slate-700">
+                <User className="w-4 h-4 text-slate-300" />
               </div>
               <div className="hidden sm:flex flex-col text-left leading-tight">
-                <span className="text-[11px] text-slate-300">Tài khoản</span>
-                <span className="font-bold text-xs flex items-center">
-                  Đăng nhập <ChevronDown className="w-3 h-3 ml-0.5 opacity-70" />
+                <span className="text-[10px] text-slate-400">Tài khoản</span>
+                <span className="font-semibold text-xs flex items-center">
+                  Đăng nhập
                 </span>
               </div>
             </div>
@@ -156,18 +143,18 @@ export default function Navbar({
             {/* Giỏ hàng với Badge */}
             <button
               onClick={onOpenCart}
-              className="relative flex items-center gap-2 bg-blue-800/80 hover:bg-blue-700/80 px-3 py-2 rounded-lg border border-blue-500/40 transition-all cursor-pointer"
+              className="relative flex items-center gap-2 bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-xl border border-slate-700 transition-all cursor-pointer text-white"
               aria-label="Giỏ hàng"
             >
               <div className="relative">
-                <ShoppingBag className="w-5 h-5 text-yellow-400" />
+                <ShoppingBag className="w-4 h-4 text-white" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-600 text-white font-black text-[10px] w-4 h-4 rounded-full flex items-center justify-center shadow-md animate-bounce">
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
                     {cartCount}
                   </span>
                 )}
               </div>
-              <span className="hidden sm:inline font-bold text-xs text-white">
+              <span className="hidden sm:inline font-semibold text-xs text-white">
                 Giỏ hàng
               </span>
             </button>
@@ -183,13 +170,13 @@ export default function Navbar({
               placeholder="Tìm võ phục, đai, giáp theo môn võ..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white text-slate-800 placeholder-slate-400 text-xs rounded-lg pl-3 pr-10 py-2 focus:outline-none shadow-inner"
+              className="w-full bg-slate-800 text-white placeholder-slate-400 text-xs rounded-xl pl-3.5 pr-10 py-2 border border-slate-700 focus:outline-none"
             />
             <button
               type="button"
-              className="absolute right-1 top-1 bottom-1 px-3 bg-blue-700 text-white rounded-md flex items-center justify-center"
+              className="absolute right-1 top-1 bottom-1 px-3 bg-slate-700 text-white rounded-lg flex items-center justify-center"
             >
-              <Search className="w-3.5 h-3.5 text-yellow-300" />
+              <Search className="w-3.5 h-3.5 text-slate-200" />
             </button>
           </div>
         </div>
@@ -197,61 +184,61 @@ export default function Navbar({
 
       {/* 3. SUB NAVIGATION (Dải danh mục & Lối tắt) */}
       <nav className="bg-white border-b border-slate-200 hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between text-xs font-bold text-slate-700 uppercase tracking-wide">
-          <div className="flex items-center gap-6 py-2.5">
-            <Link href="#martial-categories" className="text-blue-800 hover:text-red-600 flex items-center gap-1 transition-colors">
-              <Menu className="w-3.5 h-3.5" /> Danh mục môn võ
+        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between text-xs font-medium text-slate-700">
+          <div className="flex items-center gap-7 py-2.5">
+            <Link href="#martial-categories" className="text-slate-900 font-semibold hover:text-blue-700 flex items-center gap-1.5 transition-colors">
+              <Menu className="w-3.5 h-3.5" /> Môn võ
             </Link>
-            <Link href="#flash-deal" className="text-red-600 hover:text-red-700 font-extrabold flex items-center gap-1 transition-colors">
-              <Sparkles className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" /> Bão Deal Hôm Nay
+            <Link href="#flash-deal" className="text-red-600 hover:text-red-700 font-semibold flex items-center gap-1 transition-colors">
+              <Sparkles className="w-3.5 h-3.5 text-red-600" /> Tuần lễ ưu đãi
             </Link>
-            <Link href="#products-catalog" className="hover:text-blue-700 transition-colors">
-              Võ Phục Vovinam
+            <Link href="#products-catalog" className="hover:text-slate-900 transition-colors">
+              Vovinam
             </Link>
-            <Link href="#products-catalog" className="hover:text-blue-700 transition-colors">
+            <Link href="#products-catalog" className="hover:text-slate-900 transition-colors">
               Taekwondo (WTF)
             </Link>
-            <Link href="#products-catalog" className="hover:text-blue-700 transition-colors">
+            <Link href="#products-catalog" className="hover:text-slate-900 transition-colors">
               Karatedo
             </Link>
-            <Link href="#products-catalog" className="hover:text-blue-700 transition-colors">
+            <Link href="#products-catalog" className="hover:text-slate-900 transition-colors">
               Võ Cổ Truyền
             </Link>
-            <Link href="#dojo-b2b" className="text-blue-700 hover:text-blue-900 font-black border-l pl-4 border-slate-300 transition-colors">
-              Đặt Đồng Phục Võ Đường (B2B)
+            <Link href="#dojo-b2b" className="text-blue-700 hover:text-blue-900 font-semibold border-l pl-5 border-slate-200 transition-colors">
+              Cổng đặt CLB Võ Đường
             </Link>
           </div>
-          <div className="py-2 text-[11px] font-medium text-slate-500 flex items-center gap-3">
-            <span>📞 CSKH: 0987.654.321</span>
-            <span className="text-emerald-600 font-semibold">● Miễn phí đổi size 1 lần</span>
+          <div className="py-2 text-[11px] font-normal text-slate-500 flex items-center gap-3">
+            <span>Tư vấn: 0987.654.321</span>
+            <span className="text-emerald-700 font-medium">Đổi size 7 ngày miễn phí</span>
           </div>
         </div>
       </nav>
 
       {/* MOBILE DRAWER */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-slate-900/95 text-white border-b border-slate-800 p-4 space-y-3">
+        <div className="md:hidden bg-slate-950 text-white border-b border-slate-800 p-4 space-y-3">
           <button
             onClick={() => {
               onOpenAdvisor();
               setIsMobileMenuOpen(false);
             }}
-            className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-slate-950 font-bold text-sm py-2.5 rounded-lg flex items-center justify-center gap-2 shadow"
+            className="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs py-2.5 rounded-xl flex items-center justify-center gap-2 border border-slate-700"
           >
-            <Compass className="w-4 h-4 text-red-700" /> Tư vấn Size thông minh (AI)
+            <Compass className="w-4 h-4 text-amber-400" /> Bảng tính size chuẩn xác
           </button>
-          <div className="grid grid-cols-2 gap-2 text-xs font-semibold pt-2">
-            <Link href="#martial-categories" onClick={() => setIsMobileMenuOpen(false)} className="bg-white/10 p-2.5 rounded text-center">
+          <div className="grid grid-cols-2 gap-2 text-xs font-medium pt-1">
+            <Link href="#martial-categories" onClick={() => setIsMobileMenuOpen(false)} className="bg-slate-900 p-2.5 rounded-xl text-center border border-slate-800">
               Môn Võ
             </Link>
-            <Link href="#flash-deal" onClick={() => setIsMobileMenuOpen(false)} className="bg-red-900/60 text-red-200 p-2.5 rounded text-center">
-              Bão Deal
+            <Link href="#flash-deal" onClick={() => setIsMobileMenuOpen(false)} className="bg-slate-900 p-2.5 rounded-xl text-center border border-slate-800 text-red-400">
+              Ưu Đãi
             </Link>
-            <Link href="#products-catalog" onClick={() => setIsMobileMenuOpen(false)} className="bg-white/10 p-2.5 rounded text-center">
+            <Link href="#products-catalog" onClick={() => setIsMobileMenuOpen(false)} className="bg-slate-900 p-2.5 rounded-xl text-center border border-slate-800">
               Võ Phục
             </Link>
-            <Link href="#dojo-b2b" onClick={() => setIsMobileMenuOpen(false)} className="bg-blue-900/60 text-blue-200 p-2.5 rounded text-center">
-              Đặt Võ Đường
+            <Link href="#dojo-b2b" onClick={() => setIsMobileMenuOpen(false)} className="bg-slate-900 p-2.5 rounded-xl text-center border border-slate-800 text-blue-400">
+              Võ Đường
             </Link>
           </div>
         </div>

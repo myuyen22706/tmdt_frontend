@@ -56,23 +56,19 @@ export default function DojoB2BSection() {
   };
 
   return (
-    <section id="dojo-b2b" className="py-14 bg-gradient-to-br from-[#001f3f] via-[#002f5e] to-slate-950 text-white relative overflow-hidden">
-      {/* Họa tiết ánh sáng nền */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-
+    <section id="dojo-b2b" className="py-16 bg-slate-950 text-white relative overflow-hidden border-t border-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* HEADER SECTION */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-400 text-slate-950 text-xs font-black uppercase rounded-full tracking-wider shadow">
-            <Sparkles className="w-3.5 h-3.5 text-red-700" /> ⭐ Tính Năng Điểm Nhấn #3: Giải Pháp B2B2C
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 text-slate-300 text-xs font-medium uppercase rounded-full tracking-wider border border-slate-800">
+            Dành cho Huấn luyện viên & Võ đường
           </span>
-          <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white mt-2">
-            Đặt Đồng Phục Cho Võ Đường & Câu Lạc Bộ
+          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white mt-3">
+            Cổng Gom Đơn & Đồng Phục CLB
           </h2>
-          <p className="text-xs sm:text-sm text-blue-200 mt-2 font-light">
-            Giải pháp thông minh dành riêng cho Huấn luyện viên: Tự động gom đơn, phụ huynh tự chọn size theo link riêng, đóng gói dán tên từng võ sinh.
+          <p className="text-xs sm:text-sm text-slate-400 mt-2 leading-relaxed font-light">
+            Giải pháp chuyên biệt cho ban huấn luyện: Tạo đợt đặt áo, gửi link Zalo cho phụ huynh tự chọn size, tự động tổng hợp danh sách và đóng gói riêng từng võ sinh.
           </p>
         </div>
 
@@ -82,48 +78,48 @@ export default function DojoB2BSection() {
             {
               step: "01",
               title: "Tạo Đợt Đặt Hàng",
-              desc: "HLV chọn mẫu võ phục, tải logo CLB, định ngày chốt đơn.",
+              desc: "HLV chọn mẫu võ phục, tải logo CLB và định ngày chốt đơn.",
               icon: Users,
-              color: "text-yellow-400",
+              color: "text-amber-400",
             },
             {
               step: "02",
-              title: "Link / Mã QR Riêng",
-              desc: "Gửi link vào nhóm Zalo để phụ huynh võ sinh tự vào đặt.",
+              title: "Chia Sẻ Link Riêng",
+              desc: "Gửi link vào nhóm Zalo để phụ huynh võ sinh tự vào đăng ký size.",
               icon: QrCode,
               color: "text-emerald-400",
             },
             {
               step: "03",
-              title: "Phụ Huynh Tự Chọn Size",
-              desc: "Có công cụ AI tư vấn size chính xác, nhập tên con thêu áo.",
+              title: "Phụ Huynh Tự Đo Size",
+              desc: "Có công cụ tính size theo chiều cao, cân nặng và đăng ký thêu tên.",
               icon: Share2,
               color: "text-blue-400",
             },
             {
               step: "04",
-              title: "Giao Hàng Gom Tên",
+              title: "Giao Hàng Dán Tên",
               desc: "Đóng gói dán tên từng em, xuất file Excel danh sách size theo lớp.",
               icon: FileSpreadsheet,
-              color: "text-red-400",
+              color: "text-rose-400",
             },
           ].map((item, idx) => (
             <div
               key={idx}
-              className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/10 hover:border-yellow-400/50 transition-all hover:-translate-y-1"
+              className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800 hover:border-slate-700 transition-all"
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="text-2xl font-black text-white/30">{item.step}</span>
-                <item.icon className={`w-6 h-6 ${item.color}`} />
+                <span className="text-2xl font-bold text-slate-700">{item.step}</span>
+                <item.icon className={`w-5 h-5 ${item.color}`} />
               </div>
-              <h3 className="text-sm font-bold text-white mb-1">{item.title}</h3>
-              <p className="text-xs text-slate-300 leading-relaxed font-light">{item.desc}</p>
+              <h3 className="text-sm font-semibold text-white mb-1">{item.title}</h3>
+              <p className="text-xs text-slate-400 leading-relaxed font-light">{item.desc}</p>
             </div>
           ))}
         </div>
 
         {/* BẢNG ĐIỀU KHIỂN ĐỢT ĐẶT HÀNG MẪU (DEMO LIVE INTERACTION) */}
-        <div className="bg-white text-slate-900 rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200">
+        <div className="bg-white text-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border-b border-slate-100 pb-6 mb-6">
             
             {/* Thông tin đợt */}
