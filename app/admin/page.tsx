@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { getApiUrl } from "@/lib/api";
 import {
   ShieldAlert,
   Package,
@@ -193,7 +194,7 @@ export default function AdminDashboardPage() {
       }
 
       // Tải danh sách sản phẩm nền (background)
-      fetch("http://localhost:8000/api/v1/products?limit=30")
+      fetch(getApiUrl("/api/v1/products?limit=30"))
         .then((res) => (res.ok ? res.json() : null))
         .then((data) => {
           if (data?.data?.items) {
@@ -212,7 +213,7 @@ export default function AdminDashboardPage() {
     setIsLoggingIn(true);
     setLoginError(null);
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+      const res = await fetch(getApiUrl("/api/v1/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone, password: pass }),
@@ -227,7 +228,7 @@ export default function AdminDashboardPage() {
       setUser(tokenData);
       setToken(tokenData.access_token);
     } catch (err: any) {
-      setLoginError(err.message || "Không thể kết nối đến máy chủ Backend Port 8000.");
+      setLoginError(err.message || "Không thể kết nối đến máy chủ Backend API.");
     } finally {
       setIsLoggingIn(false);
     }
@@ -595,7 +596,7 @@ export default function AdminDashboardPage() {
                     Doanh Thu Theo Môn Võ (F22)
                   </h3>
                   <a
-                    href="http://localhost:8000/api/v1/admin/revenue-report/csv"
+                    href={getApiUrl("/api/v1/admin/revenue-report/csv")}
                     className="flex items-center gap-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 font-medium transition-colors"
                   >
                     <Download className="w-3.5 h-3.5" /> Xuất File CSV Báo Cáo

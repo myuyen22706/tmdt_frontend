@@ -31,7 +31,8 @@ export default function DojoB2BSection() {
   ]);
 
   const handleCopyLink = () => {
-    navigator.clipboard?.writeText("http://localhost:3000/dojo/PHUDONG2026");
+    const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
+    navigator.clipboard?.writeText(`${origin}/dojo/PHUDONG2026`);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };

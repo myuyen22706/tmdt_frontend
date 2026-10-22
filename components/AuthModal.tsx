@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { getApiUrl } from "@/lib/api";
 import {
   X,
   Lock,
@@ -45,7 +46,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+      const res = await fetch(getApiUrl("/api/v1/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone: demoPhone, password: demoPass }),
@@ -70,7 +71,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
       window.location.href = "/";
       return;
     } catch (err: any) {
-      setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng kiểm tra xem Backend đã chạy chưa.");
+      setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend API. Vui lòng kiểm tra kết nối.");
     } finally {
       setLoading(false);
     }
@@ -82,7 +83,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+      const res = await fetch(getApiUrl("/api/v1/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone, password }),
@@ -107,7 +108,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
       window.location.href = "/";
       return;
     } catch (err: any) {
-      setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng đảm bảo Backend đã chạy.");
+      setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend API. Vui lòng kiểm tra kết nối.");
     } finally {
       setLoading(false);
     }
@@ -119,7 +120,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/register", {
+      const res = await fetch(getApiUrl("/api/v1/auth/register"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

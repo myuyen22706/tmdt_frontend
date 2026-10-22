@@ -7,6 +7,18 @@ const nextConfig: NextConfig = {
   },
   cacheComponents: true,
   partialPrefetching: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "img.vietqr.io",
+      },
+      {
+        protocol: "https",
+        hostname: "api.qrserver.com",
+      },
+    ],
+  },
   turbopack: {
     rules: {
       "*.css": {
@@ -18,3 +30,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+

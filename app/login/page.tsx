@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Lock, Phone, User, Eye, EyeOff, ShieldCheck, CheckCircle2, AlertCircle, ArrowLeft } from "lucide-react";
+import { getApiUrl } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+      const res = await fetch(getApiUrl("/api/v1/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone: demoPhone, password: demoPass }),
@@ -52,7 +53,7 @@ export default function LoginPage() {
         window.location.href = targetUrl;
       }, 100);
     } catch (err: any) {
-      setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng kiểm tra xem Backend FastAPI đã chạy chưa.");
+      setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend API. Vui lòng kiểm tra kết nối.");
     } finally {
       setLoading(false);
     }
@@ -65,7 +66,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+      const res = await fetch(getApiUrl("/api/v1/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone, password }),
@@ -91,7 +92,7 @@ export default function LoginPage() {
         window.location.href = targetUrl;
       }, 100);
     } catch (err: any) {
-      setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng kiểm tra xem Backend FastAPI đã chạy chưa.");
+      setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend API. Vui lòng kiểm tra kết nối.");
     } finally {
       setLoading(false);
     }
@@ -104,7 +105,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/register", {
+      const res = await fetch(getApiUrl("/api/v1/auth/register"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
