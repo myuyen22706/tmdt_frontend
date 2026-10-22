@@ -42,10 +42,14 @@ export default function LoginPage() {
       localStorage.setItem("access_token", tokenData.access_token);
       localStorage.setItem("user_info", JSON.stringify(tokenData));
 
-      setSuccessMsg(`Đăng nhập thành công với quyền ${tokenData.role.toUpperCase()} (${tokenData.full_name})! Đang chuyển hướng về trang chủ...`);
+      const isStaffOrAdmin = tokenData.role === "admin" || tokenData.role === "staff";
+      const targetUrl = isStaffOrAdmin ? "/admin" : "/";
+      const roleTitle = tokenData.role === "admin" ? "ADMIN QUẢN TRỊ" : tokenData.role === "staff" ? "NHÂN VIÊN" : tokenData.role === "coach" ? "HUẤN LUYỆN VIÊN" : "KHÁCH HÀNG";
+
+      setSuccessMsg(`Đăng nhập thành công [${roleTitle} - ${tokenData.full_name}]! Đang chuyển đến ${isStaffOrAdmin ? "Trang Quản Trị (/admin)" : "Trang Chủ"}...`);
 
       setTimeout(() => {
-        router.push("/");
+        router.push(targetUrl);
       }, 1000);
     } catch (err: any) {
       setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng kiểm tra xem Backend FastAPI đã chạy chưa.");
@@ -77,10 +81,14 @@ export default function LoginPage() {
       localStorage.setItem("access_token", tokenData.access_token);
       localStorage.setItem("user_info", JSON.stringify(tokenData));
 
-      setSuccessMsg(`Chào mừng ${tokenData.full_name} (${tokenData.role.toUpperCase()}) trở lại! Đang chuyển về trang chủ...`);
+      const isStaffOrAdmin = tokenData.role === "admin" || tokenData.role === "staff";
+      const targetUrl = isStaffOrAdmin ? "/admin" : "/";
+      const roleTitle = tokenData.role === "admin" ? "ADMIN QUẢN TRỊ" : tokenData.role === "staff" ? "NHÂN VIÊN" : tokenData.role === "coach" ? "HUẤN LUYỆN VIÊN" : "KHÁCH HÀNG";
+
+      setSuccessMsg(`Chào mừng ${tokenData.full_name} (${roleTitle})! Đang chuyển đến ${isStaffOrAdmin ? "Trang Quản Trị (/admin)" : "Trang Chủ"}...`);
 
       setTimeout(() => {
-        router.push("/");
+        router.push(targetUrl);
       }, 1000);
     } catch (err: any) {
       setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng kiểm tra xem Backend FastAPI đã chạy chưa.");
@@ -238,36 +246,52 @@ export default function LoginPage() {
                 {loading ? "Đang xác thực..." : "Đăng Nhập"}
               </button>
 
-              {/* 3 nút 1-click đăng nhập demo */}
+              {/* 4 nút 1-click đăng nhập demo */}
               <div className="pt-3 border-t border-slate-100">
                 <span className="block text-[11px] text-slate-500 text-center mb-2 font-medium">
                   ⚡ Đăng nhập nhanh 1-Click tài khoản Demo:
                 </span>
-                <div className="grid grid-cols-3 gap-2 text-xs">
+                <div className="grid grid-cols-2 gap-2 text-xs">
                   <button
                     type="button"
                     onClick={() => quickLogin("0988000001", "AdminPass123")}
                     disabled={loading}
-                    className="py-2 px-2 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102"
+                    className="py-2.5 px-2 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102 flex items-center justify-center gap-1.5"
                   >
-                    👑 Admin
+                    👑 <span>Admin Quản trị</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => quickLogin("0988000002", "StaffPass123")}
+                    disabled={loading}
+                    className="py-2.5 px-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102 flex items-center justify-center gap-1.5"
+                  >
+                    📦 <span>Nhân viên Staff</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => quickLogin("0988000003", "CoachPass123")}
                     disabled={loading}
-                    className="py-2 px-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102"
+                    className="py-2.5 px-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102 flex items-center justify-center gap-1.5"
                   >
-                    🥋 HLV CLB
+                    🥋 <span>HLV Võ Đường</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => quickLogin("0988000004", "UserPass123")}
                     disabled={loading}
-                    className="py-2 px-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102"
+                    className="py-2.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102 flex items-center justify-center gap-1.5"
                   >
-                    👤 Khách hàng
+                    👤 <span>Khách Mua Hàng</span>
                   </button>
+                </div>
+
+                <div className="mt-3 p-2.5 bg-slate-50 rounded-xl border border-slate-200/80 text-[11px] text-slate-500 space-y-1">
+                  <div className="font-semibold text-slate-600 text-center mb-1">📋 Hoặc tự nhập số điện thoại & mật khẩu:</div>
+                  <div className="flex justify-between"><span>• Admin: <b>0988000001</b></span><span>MK: <b>AdminPass123</b></span></div>
+                  <div className="flex justify-between"><span>• Nhân viên: <b>0988000002</b></span><span>MK: <b>StaffPass123</b></span></div>
+                  <div className="flex justify-between"><span>• HLV: <b>0988000003</b></span><span>MK: <b>CoachPass123</b></span></div>
+                  <div className="flex justify-between"><span>• Khách hàng: <b>0988000004</b></span><span>MK: <b>UserPass123</b></span></div>
                 </div>
               </div>
             </form>

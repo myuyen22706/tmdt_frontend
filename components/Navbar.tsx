@@ -143,27 +143,37 @@ export default function Navbar({
 
             {/* Tài khoản */}
             {user ? (
-              <div className="flex items-center gap-2 text-xs text-slate-300">
+              <div className="flex items-center gap-2.5 text-xs text-slate-300">
                 <div className="w-9 h-9 rounded-xl bg-red-600/30 text-red-400 flex items-center justify-center border border-red-500/40">
                   <User className="w-4 h-4" />
                 </div>
                 <div className="flex flex-col text-left leading-tight">
-                  <span className="text-[10px] text-slate-400 flex items-center gap-1">
+                  <span className="text-[10px] text-slate-400 flex items-center gap-1 font-medium">
                     {user.role === "admin" && <span className="bg-red-600 text-white px-1 rounded text-[9px] font-bold">ADMIN</span>}
                     {user.role === "coach" && <span className="bg-amber-600 text-white px-1 rounded text-[9px] font-bold">HLV</span>}
                     {user.role === "staff" && <span className="bg-blue-600 text-white px-1 rounded text-[9px] font-bold">STAFF</span>}
                     {user.full_name || "Thành viên"}
                   </span>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onLogout?.();
-                    }}
-                    className="font-medium text-[11px] text-red-400 hover:text-red-300 transition-colors text-left cursor-pointer"
-                  >
-                    Đăng xuất
-                  </button>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    {(user.role === "admin" || user.role === "staff") && (
+                      <Link
+                        href="/admin"
+                        className="font-bold text-[10px] bg-red-600 hover:bg-red-700 text-white px-1.5 py-0.5 rounded transition-colors"
+                      >
+                        ⚙️ Quản trị
+                      </Link>
+                    )}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onLogout?.();
+                      }}
+                      className="font-medium text-[11px] text-slate-400 hover:text-red-400 transition-colors text-left cursor-pointer"
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (
