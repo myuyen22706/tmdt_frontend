@@ -22,11 +22,42 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
 
   if (!isOpen) return null;
 
-  // Điền nhanh tài khoản demo
-  const fillDemoAccount = (demoPhone: string, demoPass: string) => {
+  // Điền nhanh tài khoản demo và đăng nhập ngay
+  const quickLogin = async (demoPhone: string, demoPass: string) => {
     setPhone(demoPhone);
     setPassword(demoPass);
     setErrorMsg(null);
+    setSuccessMsg(null);
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: demoPhone, password: demoPass }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.detail || data.message || "Đăng nhập thất bại");
+      }
+
+      const tokenData = data.data;
+      localStorage.setItem("access_token", tokenData.access_token);
+      localStorage.setItem("user_info", JSON.stringify(tokenData));
+
+      setSuccessMsg(`Đăng nhập thành công với vai trò ${tokenData.role.toUpperCase()} (${tokenData.full_name})!`);
+      onLoginSuccess(tokenData);
+
+      setTimeout(() => {
+        onClose();
+      }, 1000);
+    } catch (err: any) {
+      setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng kiểm tra xem Backend đã chạy chưa.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -213,29 +244,32 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
               </button>
 
               {/* Nút bấm nhanh cho Hội đồng chấm thi / Demo */}
-              <div className="pt-2 border-t border-slate-100">
-                <span className="block text-[11px] text-slate-400 text-center mb-2 font-medium">
-                  Hoặc chọn nhanh tài khoản Demo:
+              <div className="pt-3 border-t border-slate-100">
+                <span className="block text-[11px] text-slate-500 text-center mb-2 font-medium">
+                  ⚡ Đăng nhập nhanh 1-Click tài khoản Demo:
                 </span>
-                <div className="grid grid-cols-3 gap-1.5 text-[11px]">
+                <div className="grid grid-cols-3 gap-2 text-xs">
                   <button
                     type="button"
-                    onClick={() => fillDemoAccount("0988000001", "AdminPass123")}
-                    className="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium text-center transition-colors cursor-pointer"
+                    onClick={() => quickLogin("0988000001", "AdminPass123")}
+                    disabled={loading}
+                    className="py-2 px-2 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102"
                   >
                     👑 Admin
                   </button>
                   <button
                     type="button"
-                    onClick={() => fillDemoAccount("0988000003", "CoachPass123")}
-                    className="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium text-center transition-colors cursor-pointer"
+                    onClick={() => quickLogin("0988000003", "CoachPass123")}
+                    disabled={loading}
+                    className="py-2 px-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102"
                   >
                     🥋 HLV CLB
                   </button>
                   <button
                     type="button"
-                    onClick={() => fillDemoAccount("0988000004", "UserPass123")}
-                    className="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium text-center transition-colors cursor-pointer"
+                    onClick={() => quickLogin("0988000004", "UserPass123")}
+                    disabled={loading}
+                    className="py-2 px-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102"
                   >
                     👤 Khách hàng
                   </button>

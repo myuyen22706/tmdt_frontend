@@ -50,6 +50,18 @@ export default function Navbar({
             <span className="text-slate-200">
               Miễn phí đổi size trong 7 ngày • Chiết khấu sỉ tới 30% cho võ đường & CLB
             </span>
+            {!user && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onOpenAuth?.();
+                }}
+                className="underline text-red-400 hover:text-red-300 font-semibold cursor-pointer ml-1 inline-block"
+              >
+                [Đăng nhập ngay]
+              </button>
+            )}
           </div>
           <div className="hidden md:flex items-center gap-5 text-xs text-slate-400">
             <span className="flex items-center gap-1.5">
@@ -139,7 +151,7 @@ export default function Navbar({
                 <div className="w-9 h-9 rounded-xl bg-red-600/30 text-red-400 flex items-center justify-center border border-red-500/40">
                   <User className="w-4 h-4" />
                 </div>
-                <div className="hidden sm:flex flex-col text-left leading-tight">
+                <div className="flex flex-col text-left leading-tight">
                   <span className="text-[10px] text-slate-400 flex items-center gap-1">
                     {user.role === "admin" && <span className="bg-red-600 text-white px-1 rounded text-[9px] font-bold">ADMIN</span>}
                     {user.role === "coach" && <span className="bg-amber-600 text-white px-1 rounded text-[9px] font-bold">HLV</span>}
@@ -147,7 +159,11 @@ export default function Navbar({
                     {user.full_name || "Thành viên"}
                   </span>
                   <button
-                    onClick={onLogout}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onLogout?.();
+                    }}
                     className="font-medium text-[11px] text-red-400 hover:text-red-300 transition-colors text-left cursor-pointer"
                   >
                     Đăng xuất
@@ -157,18 +173,19 @@ export default function Navbar({
             ) : (
               <button
                 type="button"
-                onClick={onOpenAuth}
-                className="flex items-center gap-2 text-xs cursor-pointer text-slate-300 hover:text-white transition-colors group bg-transparent border-none p-0"
+                id="login-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onOpenAuth?.();
+                }}
+                className="flex items-center gap-2 text-xs cursor-pointer text-white transition-all bg-red-600 hover:bg-red-700 px-3.5 py-2 rounded-xl shadow-sm hover:scale-102 active:scale-98 border border-red-500"
+                title="Bấm để Đăng nhập hoặc Đăng ký tài khoản"
               >
-                <div className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center border border-slate-700 group-hover:border-slate-500 transition-colors">
-                  <User className="w-4 h-4 text-slate-300 group-hover:text-white" />
-                </div>
-                <div className="hidden sm:flex flex-col text-left leading-tight">
-                  <span className="text-[10px] text-slate-400">Tài khoản</span>
-                  <span className="font-semibold text-xs flex items-center text-white group-hover:text-red-400 transition-colors">
-                    Đăng nhập
-                  </span>
-                </div>
+                <User className="w-4 h-4 text-white" />
+                <span className="font-bold text-xs text-white">
+                  Đăng nhập
+                </span>
               </button>
             )}
 
@@ -250,6 +267,41 @@ export default function Navbar({
       {/* MOBILE DRAWER */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-slate-950 text-white border-b border-slate-800 p-4 space-y-3">
+          {user ? (
+            <div className="flex items-center justify-between bg-slate-900 p-3 rounded-xl border border-slate-800">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-red-600/30 text-red-400 flex items-center justify-center">
+                  <User className="w-4 h-4" />
+                </div>
+                <div className="text-left">
+                  <div className="text-xs font-semibold text-white">{user.full_name}</div>
+                  <div className="text-[10px] text-slate-400 uppercase font-bold">{user.role}</div>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  onLogout?.();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="text-xs text-red-400 hover:text-red-300 font-medium"
+              >
+                Đăng xuất
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                onOpenAuth?.();
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-md cursor-pointer"
+            >
+              <User className="w-4 h-4" /> Đăng nhập / Đăng ký tài khoản
+            </button>
+          )}
+
           <button
             onClick={() => {
               onOpenAdvisor();
