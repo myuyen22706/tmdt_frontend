@@ -51,16 +51,12 @@ export default function Navbar({
               Miễn phí đổi size trong 7 ngày • Chiết khấu sỉ tới 30% cho võ đường & CLB
             </span>
             {!user && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onOpenAuth?.();
-                }}
+              <Link
+                href="/login"
                 className="underline text-red-400 hover:text-red-300 font-semibold cursor-pointer ml-1 inline-block"
               >
                 [Đăng nhập ngay]
-              </button>
+              </Link>
             )}
           </div>
           <div className="hidden md:flex items-center gap-5 text-xs text-slate-400">
@@ -171,14 +167,9 @@ export default function Navbar({
                 </div>
               </div>
             ) : (
-              <button
-                type="button"
+              <Link
+                href="/login"
                 id="login-button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onOpenAuth?.();
-                }}
                 className="flex items-center gap-2 text-xs cursor-pointer text-white transition-all bg-red-600 hover:bg-red-700 px-3.5 py-2 rounded-xl shadow-sm hover:scale-102 active:scale-98 border border-red-500"
                 title="Bấm để Đăng nhập hoặc Đăng ký tài khoản"
               >
@@ -186,7 +177,7 @@ export default function Navbar({
                 <span className="font-bold text-xs text-white">
                   Đăng nhập
                 </span>
-              </button>
+              </Link>
             )}
 
             {/* Giỏ hàng với Badge */}
@@ -290,16 +281,13 @@ export default function Navbar({
               </button>
             </div>
           ) : (
-            <button
-              type="button"
-              onClick={() => {
-                onOpenAuth?.();
-                setIsMobileMenuOpen(false);
-              }}
+            <Link
+              href="/login"
+              onClick={() => setIsMobileMenuOpen(false)}
               className="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-md cursor-pointer"
             >
               <User className="w-4 h-4" /> Đăng nhập / Đăng ký tài khoản
-            </button>
+            </Link>
           )}
 
           <button
