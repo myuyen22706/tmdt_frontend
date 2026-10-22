@@ -34,7 +34,8 @@ export default function AdminDashboardPage() {
   const [user, setUser] = useState<any>(null);
   const [token, setToken] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"overview" | "orders" | "returns" | "inventory" | "logs">("overview");
-  const [loading, setLoading] = useState(true);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   // Dữ liệu quản trị
   const [kpiData, setKpiData] = useState<any>({
@@ -183,21 +184,15 @@ export default function AdminDashboardPage() {
       const storedToken = localStorage.getItem("access_token");
       const storedUser = localStorage.getItem("user_info");
 
-      if (!storedToken || !storedUser) {
-        setLoading(false);
-        return;
+      if (storedToken && storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser.role === "admin" || parsedUser.role === "staff") {
+          setUser(parsedUser);
+          setToken(storedToken);
+        }
       }
 
-      const parsedUser = JSON.parse(storedUser);
-      if (parsedUser.role !== "admin" && parsedUser.role !== "staff") {
-        setLoading(false);
-        return;
-      }
-
-      setUser(parsedUser);
-      setToken(storedToken);
-
-      // Tải danh sách 24 sản phẩm từ Backend FastAPI
+      // Tải danh sách sản phẩm nền (background)
       fetch("http://localhost:8000/api/v1/products?limit=30")
         .then((res) => (res.ok ? res.json() : null))
         .then((data) => {
@@ -205,18 +200,44 @@ export default function AdminDashboardPage() {
             setProducts(data.data.items);
           }
         })
-        .catch(() => {})
-        .finally(() => setLoading(false));
+        .catch(() => {});
 
     } catch (e) {
-      setLoading(false);
+      // ignore
     }
   }, []);
+
+  // Đăng nhập nhanh trực tiếp ngay trên trang Admin
+  const handleQuickLoginAdmin = async (phone: string, pass: string) => {
+    setIsLoggingIn(true);
+    setLoginError(null);
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, password: pass }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.detail || data.message || "Đăng nhập thất bại");
+      }
+      const tokenData = data.data;
+      localStorage.setItem("access_token", tokenData.access_token);
+      localStorage.setItem("user_info", JSON.stringify(tokenData));
+      setUser(tokenData);
+      setToken(tokenData.access_token);
+    } catch (err: any) {
+      setLoginError(err.message || "Không thể kết nối đến máy chủ Backend Port 8000.");
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("user_info");
-    router.push("/login");
+    setUser(null);
+    setToken(null);
   };
 
   // Cập nhật trạng thái đơn hàng
@@ -268,48 +289,75 @@ export default function AdminDashboardPage() {
     setProducts((prev) => {
       const copy = [...prev];
       const target = { ...copy[productIndex] };
-      const currentStock = target.stock || 20;
+      const currentStock = target.stock !== undefined ? target.stock : 18;
       target.stock = Math.max(0, currentStock + delta);
       copy[productIndex] = target;
       return copy;
     });
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-sm font-semibold text-slate-300">Đang tải Trung Tâm Quản Trị Đai Trắng...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Chặn nếu không có quyền
+  // MÀN HÌNH ĐĂNG NHẬP 1-CLICK TRỰC TIẾP TRÊN TRANG ADMIN NẾU CHƯA CÓ TOKEN
   if (!user || (user.role !== "admin" && user.role !== "staff")) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 text-white text-center">
-        <div className="w-20 h-20 rounded-3xl bg-red-900/30 border border-red-500/40 text-red-500 flex items-center justify-center mb-5 animate-pulse">
-          <ShieldAlert className="w-10 h-10" />
-        </div>
-        <h1 className="text-2xl font-black mb-2 tracking-tight">Khu Vực Quản Trị Hệ Thống (Admin & Staff)</h1>
-        <p className="text-sm text-slate-400 max-w-md mb-6 leading-relaxed">
-          Bạn đang xem với tư cách khách. Vui lòng đăng nhập bằng tài khoản <b>Quản Trị Viên (Admin)</b> hoặc <b>Nhân Viên (Staff)</b> để truy cập dữ liệu và vận hành hệ thống.
-        </p>
-        <div className="flex gap-3">
-          <Link
-            href="/login"
-            className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-red-600/30"
-          >
-            👑 Đăng Nhập Admin Ngay
-          </Link>
-          <Link
-            href="/"
-            className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl text-sm transition-all border border-slate-700"
-          >
-            Quay Lại Cửa Hàng
-          </Link>
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 text-white text-center selection:bg-red-600 selection:text-white">
+        <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+          <div className="absolute right-0 top-0 translate-x-4 -translate-y-4 w-32 h-32 bg-red-600/10 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div className="w-16 h-16 rounded-2xl bg-red-600/20 border border-red-500/40 text-red-500 flex items-center justify-center mx-auto mb-4">
+            <ShieldAlert className="w-8 h-8" />
+          </div>
+
+          <h1 className="text-xl font-black mb-1 tracking-tight text-white">
+            CỔNG QUẢN TRỊ HỆ THỐNG
+          </h1>
+          <p className="text-xs text-slate-400 mb-6">
+            Vui lòng xác thực tài khoản có thẩm quyền Quản Trị Viên (Admin) hoặc Nhân Viên (Staff) để vào Dashboard.
+          </p>
+
+          {loginError && (
+            <div className="mb-4 p-3 bg-red-950/80 border border-red-500/50 text-red-300 rounded-xl text-xs text-left">
+              ⚠️ {loginError}
+            </div>
+          )}
+
+          {/* 2 Nút 1-Click Đăng nhập trực tiếp ngay tại trang Admin */}
+          <div className="space-y-3">
+            <button
+              onClick={() => handleQuickLoginAdmin("0988000001", "AdminPass123")}
+              disabled={isLoggingIn}
+              className="w-full py-3.5 px-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-extrabold rounded-xl shadow-lg shadow-red-600/30 flex items-center justify-center gap-2 hover:scale-102 transition-all cursor-pointer text-sm disabled:opacity-50"
+            >
+              {isLoggingIn ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Đang xác thực bảo mật...</span>
+                </>
+              ) : (
+                <>
+                  <span>👑 1-Click Đăng Nhập ADMIN (0988000001)</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
+
+            <button
+              onClick={() => handleQuickLoginAdmin("0988000002", "StaffPass123")}
+              disabled={isLoggingIn}
+              className="w-full py-3 px-4 bg-slate-800 hover:bg-slate-750 text-slate-200 font-bold rounded-xl border border-slate-700 flex items-center justify-center gap-2 hover:scale-102 transition-all cursor-pointer text-xs disabled:opacity-50"
+            >
+              <span>📦 1-Click Đăng Nhập STAFF (0988000002)</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          <div className="mt-6 pt-5 border-t border-slate-800 flex justify-center">
+            <Link
+              href="/"
+              className="text-xs text-slate-400 hover:text-white transition-colors flex items-center gap-1.5"
+            >
+              <Home className="w-3.5 h-3.5" /> Quay về xem cửa hàng bán lẻ
+            </Link>
+          </div>
         </div>
       </div>
     );

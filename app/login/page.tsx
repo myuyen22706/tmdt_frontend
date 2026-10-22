@@ -49,8 +49,8 @@ export default function LoginPage() {
       setSuccessMsg(`Đăng nhập thành công [${roleTitle} - ${tokenData.full_name}]! Đang chuyển đến ${isStaffOrAdmin ? "Trang Quản Trị (/admin)" : "Trang Chủ"}...`);
 
       setTimeout(() => {
-        router.push(targetUrl);
-      }, 1000);
+        window.location.href = targetUrl;
+      }, 100);
     } catch (err: any) {
       setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng kiểm tra xem Backend FastAPI đã chạy chưa.");
     } finally {
@@ -88,8 +88,8 @@ export default function LoginPage() {
       setSuccessMsg(`Chào mừng ${tokenData.full_name} (${roleTitle})! Đang chuyển đến ${isStaffOrAdmin ? "Trang Quản Trị (/admin)" : "Trang Chủ"}...`);
 
       setTimeout(() => {
-        router.push(targetUrl);
-      }, 1000);
+        window.location.href = targetUrl;
+      }, 100);
     } catch (err: any) {
       setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng kiểm tra xem Backend FastAPI đã chạy chưa.");
     } finally {

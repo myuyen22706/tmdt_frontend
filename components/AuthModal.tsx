@@ -61,10 +61,14 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
       localStorage.setItem("access_token", tokenData.access_token);
       localStorage.setItem("user_info", JSON.stringify(tokenData));
 
-      // Kích hoạt màn hình thành công đặc biệt
-      setSuccessUserData(tokenData);
-      onLoginSuccess(tokenData);
+      // Chuyển hướng route ngay lập tức theo vai trò
+      if (tokenData.role === "admin" || tokenData.role === "staff") {
+        window.location.href = "/admin";
+        return;
+      }
 
+      window.location.href = "/";
+      return;
     } catch (err: any) {
       setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng kiểm tra xem Backend đã chạy chưa.");
     } finally {
@@ -94,9 +98,14 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
       localStorage.setItem("access_token", tokenData.access_token);
       localStorage.setItem("user_info", JSON.stringify(tokenData));
 
-      setSuccessUserData(tokenData);
-      onLoginSuccess(tokenData);
+      // Chuyển hướng route ngay lập tức theo vai trò
+      if (tokenData.role === "admin" || tokenData.role === "staff") {
+        window.location.href = "/admin";
+        return;
+      }
 
+      window.location.href = "/";
+      return;
     } catch (err: any) {
       setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng đảm bảo Backend đã chạy.");
     } finally {
