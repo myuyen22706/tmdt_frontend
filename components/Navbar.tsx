@@ -143,24 +143,33 @@ export default function Navbar({
 
             {/* Tài khoản */}
             {user ? (
-              <div className="flex items-center gap-2.5 text-xs text-slate-300">
-                <div className="w-9 h-9 rounded-xl bg-red-600/30 text-red-400 flex items-center justify-center border border-red-500/40">
-                  <User className="w-4 h-4" />
+              <div className="flex items-center gap-2.5 text-xs text-slate-200 bg-slate-800/90 py-1.5 px-3 rounded-xl border border-slate-700">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${
+                  user.role === 'admin' ? 'bg-red-600 text-white shadow-sm shadow-red-600/50' :
+                  user.role === 'coach' ? 'bg-amber-500 text-slate-950 font-black' :
+                  user.role === 'staff' ? 'bg-purple-600 text-white' : 'bg-blue-600 text-white'
+                }`}>
+                  {user.role === 'admin' ? '👑' : user.role === 'coach' ? '🥋' : user.role === 'staff' ? '📦' : '👤'}
                 </div>
                 <div className="flex flex-col text-left leading-tight">
-                  <span className="text-[10px] text-slate-400 flex items-center gap-1 font-medium">
-                    {user.role === "admin" && <span className="bg-red-600 text-white px-1 rounded text-[9px] font-bold">ADMIN</span>}
-                    {user.role === "coach" && <span className="bg-amber-600 text-white px-1 rounded text-[9px] font-bold">HLV</span>}
-                    {user.role === "staff" && <span className="bg-blue-600 text-white px-1 rounded text-[9px] font-bold">STAFF</span>}
-                    {user.full_name || "Thành viên"}
-                  </span>
-                  <div className="flex items-center gap-2 mt-0.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-bold text-white text-xs max-w-[120px] truncate">{user.full_name || 'Thành viên'}</span>
+                    <span className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded uppercase ${
+                      user.role === 'admin' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                      user.role === 'coach' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                      user.role === 'staff' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' :
+                      'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                    }`}>
+                      {user.role}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 mt-1">
                     {(user.role === "admin" || user.role === "staff") && (
                       <Link
                         href="/admin"
-                        className="font-bold text-[10px] bg-red-600 hover:bg-red-700 text-white px-1.5 py-0.5 rounded transition-colors"
+                        className="font-extrabold text-[10px] bg-red-600 hover:bg-red-700 text-white px-2 py-0.5 rounded shadow-xs hover:scale-105 transition-all flex items-center gap-1"
                       >
-                        ⚙️ Quản trị
+                        <span>⚙️ Quản trị</span>
                       </Link>
                     )}
                     <button
@@ -169,7 +178,7 @@ export default function Navbar({
                         e.preventDefault();
                         onLogout?.();
                       }}
-                      className="font-medium text-[11px] text-slate-400 hover:text-red-400 transition-colors text-left cursor-pointer"
+                      className="font-semibold text-[10px] text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
                     >
                       Đăng xuất
                     </button>
@@ -177,17 +186,16 @@ export default function Navbar({
                 </div>
               </div>
             ) : (
-              <Link
-                href="/login"
+              <button
+                type="button"
+                onClick={onOpenAuth}
                 id="login-button"
-                className="flex items-center gap-2 text-xs cursor-pointer text-white transition-all bg-red-600 hover:bg-red-700 px-3.5 py-2 rounded-xl shadow-sm hover:scale-102 active:scale-98 border border-red-500"
+                className="flex items-center gap-2 text-xs cursor-pointer text-white transition-all bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 px-4 py-2 rounded-xl shadow-md hover:scale-105 active:scale-95 border border-red-500 font-bold"
                 title="Bấm để Đăng nhập hoặc Đăng ký tài khoản"
               >
                 <User className="w-4 h-4 text-white" />
-                <span className="font-bold text-xs text-white">
-                  Đăng nhập
-                </span>
-              </Link>
+                <span>Đăng nhập</span>
+              </button>
             )}
 
             {/* Giỏ hàng với Badge */}
@@ -271,33 +279,47 @@ export default function Navbar({
           {user ? (
             <div className="flex items-center justify-between bg-slate-900 p-3 rounded-xl border border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-red-600/30 text-red-400 flex items-center justify-center">
-                  <User className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-lg bg-red-600/30 text-red-400 flex items-center justify-center font-bold text-xs">
+                  {user.role === 'admin' ? '👑' : user.role === 'coach' ? '🥋' : user.role === 'staff' ? '📦' : '👤'}
                 </div>
                 <div className="text-left">
                   <div className="text-xs font-semibold text-white">{user.full_name}</div>
-                  <div className="text-[10px] text-slate-400 uppercase font-bold">{user.role}</div>
+                  <div className="text-[10px] text-red-400 uppercase font-bold">{user.role}</div>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={() => {
-                  onLogout?.();
-                  setIsMobileMenuOpen(false);
-                }}
-                className="text-xs text-red-400 hover:text-red-300 font-medium"
-              >
-                Đăng xuất
-              </button>
+              <div className="flex items-center gap-2">
+                {(user.role === "admin" || user.role === "staff") && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-[10px] bg-red-600 text-white font-bold px-2 py-1 rounded"
+                  >
+                    Quản trị
+                  </Link>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    onLogout?.();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="text-xs text-red-400 hover:text-red-300 font-medium"
+                >
+                  Đăng xuất
+                </button>
+              </div>
             </div>
           ) : (
-            <Link
-              href="/login"
-              onClick={() => setIsMobileMenuOpen(false)}
+            <button
+              type="button"
+              onClick={() => {
+                onOpenAuth();
+                setIsMobileMenuOpen(false);
+              }}
               className="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-md cursor-pointer"
             >
               <User className="w-4 h-4" /> Đăng nhập / Đăng ký tài khoản
-            </Link>
+            </button>
           )}
 
           <button

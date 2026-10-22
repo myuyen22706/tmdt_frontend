@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import HeroBanner from "@/components/HeroBanner";
 import MartialCategoryGrid from "@/components/MartialCategoryGrid";
@@ -126,6 +128,71 @@ export default function HomePage() {
         user={user}
         onLogout={handleLogout}
       />
+
+      {/* Hero Greeting Bar: Hiển thị ngay khi đăng nhập thành công */}
+      {user && (
+        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-red-950 border-b border-red-500/30 text-white py-3 px-4 sm:px-8 animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-xl shrink-0 shadow-md ${
+                user.role === 'admin' ? 'bg-red-600/30 text-red-400 border border-red-500/50' :
+                user.role === 'coach' ? 'bg-amber-500/30 text-amber-400 border border-amber-500/50' :
+                user.role === 'staff' ? 'bg-purple-600/30 text-purple-400 border border-purple-500/50' :
+                'bg-blue-600/30 text-blue-400 border border-blue-500/50'
+              }`}>
+                {user.role === 'admin' ? '👑' : user.role === 'coach' ? '🥋' : user.role === 'staff' ? '📦' : '👤'}
+              </div>
+              <div className="text-left">
+                <div className="flex items-center gap-2">
+                  <span className="font-extrabold text-sm text-white">Xin chào, {user.full_name}!</span>
+                  <span className={`text-[10px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider ${
+                    user.role === 'admin' ? 'bg-red-600 text-white' :
+                    user.role === 'coach' ? 'bg-amber-500 text-slate-950' :
+                    user.role === 'staff' ? 'bg-purple-600 text-white' : 'bg-blue-600 text-white'
+                  }`}>
+                    {user.role === 'admin' && '👑 Quản Trị Viên (Admin)'}
+                    {user.role === 'coach' && '🥋 Huấn Luyện Viên CLB'}
+                    {user.role === 'staff' && '📦 Nhân Viên Vận Hành'}
+                    {user.role === 'customer' && '👤 Thành Viên Võ Sinh'}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 mt-0.5">
+                  {user.role === 'admin' || user.role === 'staff'
+                    ? 'Bạn có toàn quyền truy cập cơ sở dữ liệu MongoDB Atlas, quản lý 24 sản phẩm, duyệt đơn võ đường và kiểm soát tồn kho.'
+                    : user.role === 'coach'
+                    ? 'Tài khoản HLV được hưởng chiết khấu đến 30% khi mở chiến dịch may đồng phục cho võ đường.'
+                    : 'Chào mừng bạn đến với Đai Trắng. Tận hưởng chính sách đổi size 1 đổi 1 trong 7 ngày.'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              {(user.role === 'admin' || user.role === 'staff') && (
+                <Link
+                  href="/admin"
+                  className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-extrabold text-xs rounded-xl shadow-lg shadow-red-600/30 hover:scale-105 transition-all flex items-center gap-1.5"
+                >
+                  <span>🚀 Truy Cập Trang Quản Trị</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              )}
+              {user.role === 'coach' && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const el = document.getElementById("dojo-b2b-section");
+                    el?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-md hover:scale-105 transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>🥋 Mở Cổng Võ Đường (B2B)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content Sections */}
       <main className="flex-1">
