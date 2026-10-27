@@ -21,6 +21,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Header bảo mật cơ bản (chống nhúng iframe/clickjacking, đoán MIME, lộ URL đầy đủ khi chuyển trang)
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+        ],
+      },
+    ];
+  },
   // Giữ các URL mà sitemap của backend đang khai báo, chuyển về trang danh mục có bộ lọc tương ứng
   async redirects() {
     return [

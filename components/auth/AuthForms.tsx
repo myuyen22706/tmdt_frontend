@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { CircleNotchIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
@@ -11,14 +12,7 @@ import { useToast } from "@/components/ui/Toast";
 import { Field } from "@/components/ui/Field";
 import { buttonClass, inputClass, labelClass } from "@/components/ui/styles";
 
-const DEMO_ACCOUNTS = [
-  { role: "Quản trị viên", phone: "0988000001", password: "AdminPass123" },
-  { role: "Nhân viên kho", phone: "0988000002", password: "StaffPass123" },
-  { role: "Huấn luyện viên", phone: "0988000003", password: "CoachPass123" },
-  { role: "Khách hàng", phone: "0988000004", password: "UserPass123" },
-];
-
-function PasswordField({ id, label, value, onChange, error, autoComplete }: { id: string; label: string; value: string; onChange: (v: string) => void; error?: string; autoComplete: string }) {
+export function PasswordField({ id, label, value, onChange, error, autoComplete }: { id: string; label: string; value: string; onChange: (v: string) => void; error?: string; autoComplete: string }) {
   const [visible, setVisible] = useState(false);
   return (
     <div className="flex flex-col gap-2">
@@ -156,7 +150,12 @@ export function AuthForms() {
       {tab === "login" ? (
         <form onSubmit={submitLogin} noValidate className="flex flex-col gap-5">
           <Field label="Số điện thoại hoặc email" value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="username" inputMode="tel" error={errors.phone} />
-          <PasswordField id="login-password" label="Mật khẩu" value={password} onChange={setPassword} error={errors.password} autoComplete="current-password" />
+          <div className="flex flex-col gap-2">
+            <PasswordField id="login-password" label="Mật khẩu" value={password} onChange={setPassword} error={errors.password} autoComplete="current-password" />
+            <Link href="/forgot-password" className="self-end text-sm text-ink-2 underline-offset-4 hover:text-ink hover:underline">
+              Quên mật khẩu?
+            </Link>
+          </div>
           <button type="submit" disabled={loading} className={buttonClass("dark", "lg", "mt-1")}>
             {loading && <CircleNotchIcon className="size-5 animate-spin" />}
             Đăng nhập
@@ -181,26 +180,6 @@ export function AuthForms() {
           </button>
         </form>
       )}
-
-      <div className="border-t border-line pt-6">
-        <p className="text-sm font-medium text-ink">Tài khoản dùng thử</p>
-        <p className="mt-1 text-[13px] text-ink-3">Dữ liệu mẫu của đồ án. Bấm để đăng nhập nhanh.</p>
-        <ul className="mt-4 grid grid-cols-2 gap-2">
-          {DEMO_ACCOUNTS.map((acc) => (
-            <li key={acc.phone}>
-              <button
-                type="button"
-                disabled={loading}
-                onClick={() => doLogin(acc.phone, acc.password)}
-                className="flex w-full flex-col items-start rounded-lg border border-line bg-surface px-3 py-2.5 text-left transition-[border-color,transform] duration-200 hover:border-ink active:scale-[0.98] disabled:opacity-60 cursor-pointer"
-              >
-                <span className="text-sm font-medium text-ink">{acc.role}</span>
-                <span className="text-[13px] text-ink-3 tabular">{acc.phone}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 }
