@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { API_BASE } from "@/lib/api";
 import Link from "next/link";
 import {
   X,
@@ -37,52 +38,13 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
 
   if (!isOpen) return null;
 
-  // Điền nhanh tài khoản demo và đăng nhập ngay
-  const quickLogin = async (demoPhone: string, demoPass: string) => {
-    setPhone(demoPhone);
-    setPassword(demoPass);
-    setErrorMsg(null);
-    setLoading(true);
-
-    try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: demoPhone, password: demoPass }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.detail || data.message || "Đăng nhập thất bại");
-      }
-
-      const tokenData = data.data;
-      localStorage.setItem("access_token", tokenData.access_token);
-      localStorage.setItem("user_info", JSON.stringify(tokenData));
-
-      // Chuyển hướng route ngay lập tức theo vai trò
-      if (tokenData.role === "admin" || tokenData.role === "staff") {
-        window.location.href = "/admin";
-        return;
-      }
-
-      window.location.href = "/";
-      return;
-    } catch (err: any) {
-      setErrorMsg(err.message || "Không thể kết nối đến máy chủ Backend (Port 8000). Vui lòng kiểm tra xem Backend đã chạy chưa.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+      const res = await fetch(`${API_BASE}/api/v1/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone, password }),
@@ -119,7 +81,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8000/api/v1/auth/register", {
+      const res = await fetch(`${API_BASE}/api/v1/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -360,54 +322,6 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
                     )}
                   </button>
 
-                  {/* 4 Nút Bấm Nhanh 1-Click Demo */}
-                  <div className="pt-3 border-t border-slate-100">
-                    <span className="block text-[11px] text-slate-500 text-center mb-2 font-medium">
-                      ⚡ Đăng nhập nhanh 1-Click tài khoản Demo:
-                    </span>
-                    <div className="grid grid-cols-2 gap-2 text-xs">
-                      <button
-                        type="button"
-                        onClick={() => quickLogin("0988000001", "AdminPass123")}
-                        disabled={loading}
-                        className="py-2.5 px-2 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102 flex items-center justify-center gap-1.5"
-                      >
-                        👑 <span>Admin Quản trị</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => quickLogin("0988000002", "StaffPass123")}
-                        disabled={loading}
-                        className="py-2.5 px-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102 flex items-center justify-center gap-1.5"
-                      >
-                        📦 <span>Nhân viên Staff</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => quickLogin("0988000003", "CoachPass123")}
-                        disabled={loading}
-                        className="py-2.5 px-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102 flex items-center justify-center gap-1.5"
-                      >
-                        🥋 <span>HLV Võ Đường</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => quickLogin("0988000004", "UserPass123")}
-                        disabled={loading}
-                        className="py-2.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl font-bold text-center transition-all cursor-pointer shadow-2xs hover:scale-102 flex items-center justify-center gap-1.5"
-                      >
-                        👤 <span>Khách Mua Hàng</span>
-                      </button>
-                    </div>
-
-                    <div className="mt-3 p-2 bg-slate-50 rounded-xl border border-slate-200/80 text-[11px] text-slate-500 space-y-0.5">
-                      <div className="font-semibold text-slate-600 text-center mb-0.5">📋 Tài khoản & Mật khẩu mẫu:</div>
-                      <div className="flex justify-between"><span>• Admin: <b>0988000001</b></span><span>MK: <b>AdminPass123</b></span></div>
-                      <div className="flex justify-between"><span>• Staff: <b>0988000002</b></span><span>MK: <b>StaffPass123</b></span></div>
-                      <div className="flex justify-between"><span>• HLV: <b>0988000003</b></span><span>MK: <b>CoachPass123</b></span></div>
-                      <div className="flex justify-between"><span>• Khách: <b>0988000004</b></span><span>MK: <b>UserPass123</b></span></div>
-                    </div>
-                  </div>
                 </form>
               ) : (
                 <form onSubmit={handleRegister} className="space-y-3.5">

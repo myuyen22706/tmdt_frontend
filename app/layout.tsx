@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "VÕ SPORT – Cửa hàng Võ phục & Phụ kiện Võ thuật Chính hãng",
+  title: "VÕ THUẬT VIỆT NAM – Cửa hàng Võ phục & Phụ kiện Võ thuật Chính hãng",
   description:
     "Chuyên võ phục Vovinam, Taekwondo, Karate, Võ Cổ Truyền. Tư vấn chọn size thông minh, in thêu tên theo yêu cầu, đặt đồng phục võ đường B2B2C.",
   keywords: [

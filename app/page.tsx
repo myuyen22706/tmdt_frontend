@@ -10,7 +10,6 @@ import FlashSaleSection from "@/components/FlashSaleSection";
 import ProductCatalogSection, { ProductItem } from "@/components/ProductCatalogSection";
 import DojoB2BSection from "@/components/DojoB2BSection";
 import BlogSection from "@/components/BlogSection";
-import Footer from "@/components/Footer";
 import SizeAdvisorModal from "@/components/SizeAdvisorModal";
 import CartDrawer, { CartItemType } from "@/components/CartDrawer";
 import FloatingWidgets from "@/components/FloatingWidgets";
@@ -56,6 +55,7 @@ export default function HomePage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAdvisorOpen, setIsAdvisorOpen] = useState(false);
   const [selectedMartialArt, setSelectedMartialArt] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   // Xử lý thêm vào giỏ
   const handleAddToCart = (
@@ -127,6 +127,7 @@ export default function HomePage() {
         onOpenAuth={() => setIsAuthOpen(true)}
         user={user}
         onLogout={handleLogout}
+        onSearch={(q) => setSearchQuery(q)}
       />
 
       {/* Hero Greeting Bar: Hiển thị ngay khi đăng nhập thành công */}
@@ -216,6 +217,7 @@ export default function HomePage() {
           onAddToCart={handleAddToCart}
           onOpenAdvisor={() => setIsAdvisorOpen(true)}
           selectedMartialArtProp={selectedMartialArt}
+          searchQuery={searchQuery}
         />
 
         {/* 6. Cổng Đặt Đồng Phục Võ Đường & HLV (B2B) */}
@@ -225,8 +227,6 @@ export default function HomePage() {
         <BlogSection />
       </main>
 
-      {/* 8. Footer */}
-      <Footer />
 
       {/* 9. Modal Bảng Tính & Tư Vấn Size */}
       <SizeAdvisorModal

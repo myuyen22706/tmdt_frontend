@@ -175,12 +175,14 @@ interface ProductCatalogSectionProps {
   onAddToCart: (product: ProductItem, size: string, isEmbroidered?: boolean, embroideredName?: string) => void;
   onOpenAdvisor: () => void;
   selectedMartialArtProp?: string;
+  searchQuery?: string;
 }
 
 export default function ProductCatalogSection({
   onAddToCart,
   onOpenAdvisor,
   selectedMartialArtProp,
+  searchQuery,
 }: ProductCatalogSectionProps) {
   const [selectedMartialArt, setSelectedMartialArt] = useState<string>(selectedMartialArtProp || "all");
   const [selectedBeltRank, setSelectedBeltRank] = useState<string>("all");
@@ -193,19 +195,24 @@ export default function ProductCatalogSection({
   const [isEmbroidered, setIsEmbroidered] = useState<boolean>(false);
   const [embroideredName, setEmbroideredName] = useState<string>("");
 
-  // Lọc sản phẩm theo Môn võ & Cấp đai (USP #2)
+  // Lọc sản phẩm theo Môn võ & Cấp đai & Tên (USP #2 + Search)
   const filteredProducts = useMemo(() => {
+    const q = (searchQuery || "").toLowerCase().trim();
     return CATALOG_DATA.filter((p) => {
       if (selectedMartialArt !== "all" && p.martial_art !== selectedMartialArt) return false;
       if (selectedBeltRank !== "all" && p.belt_rank !== selectedBeltRank) return false;
       if (selectedCategory !== "all" && p.category !== selectedCategory) return false;
+      if (q) {
+        const hay = `${p.name} ${p.martial_art_label} ${p.belt_rank_label || ""} ${p.material}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
       return true;
     }).sort((a, b) => {
       if (sortBy === "price_asc") return a.price - b.price;
       if (sortBy === "price_desc") return b.price - a.price;
       return b.rating - a.rating;
     });
-  }, [selectedMartialArt, selectedBeltRank, selectedCategory, sortBy]);
+  }, [selectedMartialArt, selectedBeltRank, selectedCategory, sortBy, searchQuery]);
 
   const handleOpenQuickAdd = (product: ProductItem) => {
     setSelectedProductForCart(product);

@@ -14,8 +14,6 @@ import {
   ChevronDown,
   X,
   Compass,
-  ShieldCheck,
-  Award,
 } from "lucide-react";
 
 interface NavbarProps {
@@ -25,6 +23,7 @@ interface NavbarProps {
   onOpenAuth?: () => void;
   user?: any;
   onLogout?: () => void;
+  onSearch?: (q: string) => void;
 }
 
 export default function Navbar({
@@ -34,42 +33,23 @@ export default function Navbar({
   onOpenAuth,
   user,
   onLogout,
+  onSearch,
 }: NavbarProps) {
+
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    onSearch?.(q);
+    // Luôn cuộn đến khu catalog để người dùng thấy kết quả
+    const el = document.getElementById("products-catalog");
+    el?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <header className="sticky top-0 z-40 w-full shadow-xs">
-      {/* 1. TOP ANNOUNCEMENT BAR */}
-      <div className="bg-slate-950 text-slate-300 py-1.5 px-4 text-xs font-medium border-b border-slate-800">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2 mx-auto md:mx-0 text-center">
-            <span className="bg-red-600 text-white text-[10px] uppercase px-2 py-0.5 rounded font-semibold tracking-wider">
-              Chính sách
-            </span>
-            <span className="text-slate-200">
-              Miễn phí đổi size trong 7 ngày • Chiết khấu sỉ tới 30% cho võ đường & CLB
-            </span>
-            {!user && (
-              <Link
-                href="/login"
-                className="underline text-red-400 hover:text-red-300 font-semibold cursor-pointer ml-1 inline-block"
-              >
-                [Đăng nhập ngay]
-              </Link>
-            )}
-          </div>
-          <div className="hidden md:flex items-center gap-5 text-xs text-slate-400">
-            <span className="flex items-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Chuẩn quy cách Liên đoàn
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Award className="w-3.5 h-3.5 text-amber-400" /> Vải dệt thoi 100% Cotton
-            </span>
-          </div>
-        </div>
-      </div>
-
       {/* 2. MAIN HEADER */}
       <div className="bg-slate-900 text-white py-3.5 px-4 border-b border-slate-800 transition-colors">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 md:gap-6">
@@ -90,7 +70,7 @@ export default function Navbar({
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-extrabold tracking-tight text-white flex items-center">
-                VÕ<span className="text-red-500">SPORT</span>
+                VÕ THUẬT <span className="text-red-500 ml-1">VIỆT NAM</span>
               </span>
               <span className="text-[10px] uppercase font-medium tracking-widest text-slate-400">
                 Võ Phục & Trang Bị
@@ -99,7 +79,7 @@ export default function Navbar({
           </Link>
 
           {/* SEARCH BAR */}
-          <div className="flex-1 max-w-2xl hidden md:block">
+          <form onSubmit={submitSearch} className="flex-1 max-w-2xl hidden md:block">
             <div className="relative flex items-center">
               <input
                 type="text"
@@ -109,14 +89,14 @@ export default function Navbar({
                 className="w-full bg-slate-800/90 text-white placeholder-slate-400 text-xs rounded-xl pl-4 pr-11 py-2.5 border border-slate-700/80 focus:outline-none focus:border-slate-400 focus:bg-slate-800 transition-all"
               />
               <button
-                type="button"
+                type="submit"
                 className="absolute right-1 top-1 bottom-1 px-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Tìm kiếm"
               >
                 <Search className="w-3.5 h-3.5 text-slate-200" />
               </button>
             </div>
-          </div>
+          </form>
 
           {/* RIGHT ACTION BUTTONS */}
           <div className="flex items-center gap-3 md:gap-4 flex-shrink-0">
@@ -221,7 +201,7 @@ export default function Navbar({
         </div>
 
         {/* Mobile search bar */}
-        <div className="mt-2.5 md:hidden">
+        <form onSubmit={submitSearch} className="mt-2.5 md:hidden">
           <div className="relative flex items-center">
             <input
               type="text"
@@ -231,13 +211,13 @@ export default function Navbar({
               className="w-full bg-slate-800 text-white placeholder-slate-400 text-xs rounded-xl pl-3.5 pr-10 py-2 border border-slate-700 focus:outline-none"
             />
             <button
-              type="button"
+              type="submit"
               className="absolute right-1 top-1 bottom-1 px-3 bg-slate-700 text-white rounded-lg flex items-center justify-center"
             >
               <Search className="w-3.5 h-3.5 text-slate-200" />
             </button>
           </div>
-        </div>
+        </form>
       </div>
 
       {/* 3. SUB NAVIGATION (Dải danh mục & Lối tắt) */}

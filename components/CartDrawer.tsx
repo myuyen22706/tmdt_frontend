@@ -44,7 +44,7 @@ export default function CartDrawer({
   onClearCart,
 }: CartDrawerProps) {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("VietQR");
+  const [paymentMethod, setPaymentMethod] = useState("MoMo");
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
@@ -225,20 +225,24 @@ export default function CartDrawer({
                 <p className="text-xs text-slate-600">
                   Cảm ơn bạn <strong>{customerName}</strong>. Mã đơn hàng đã được gửi về SĐT <strong>{customerPhone}</strong>.
                 </p>
-                {paymentMethod === "VietQR" && (
-                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-2">
-                    <span className="font-bold text-blue-900 block flex items-center justify-center gap-1">
-                      <QrCode className="w-4 h-4 text-blue-600" /> Quét mã VietQR thanh toán nhanh:
+                {paymentMethod === "MoMo" && (
+                  <div className="bg-pink-50 p-4 rounded-2xl border border-pink-200 text-xs space-y-2">
+                    <span className="font-bold text-pink-800 block flex items-center justify-center gap-1.5">
+                      <QrCode className="w-4 h-4 text-pink-600" /> Quét mã MoMo thanh toán nhanh:
                     </span>
-                    <div className="w-40 h-40 bg-white border rounded-xl mx-auto flex items-center justify-center shadow-inner">
+                    <div className="w-40 h-40 bg-white border-2 border-pink-200 rounded-xl mx-auto flex items-center justify-center shadow-inner p-2 relative">
                       <img
-                        src={`https://img.vietqr.io/image/970422-0987654321-compact2.png?amount=${grandTotal}&addInfo=VO${Date.now().toString().slice(-4)}`}
-                        alt="Mã QR Thanh Toán"
-                        className="w-full h-full object-contain p-2"
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&bgcolor=ffffff&color=A50064&data=${encodeURIComponent(`momo://pay?partnerCode=VOTHUATVN&amount=${grandTotal}&orderId=VO${Date.now().toString().slice(-6)}&orderInfo=Thanh+toan+don+vo+phuc`)}`}
+                        alt="Mã QR MoMo Thanh Toán"
+                        className="w-full h-full object-contain"
                       />
+                      <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-pink-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">MoMo</span>
                     </div>
-                    <span className="text-[11px] text-slate-500 block">
-                      Tự động xác nhận giao hàng sau khi chuyển khoản
+                    <div className="text-center text-[11px] text-pink-700 font-semibold pt-1">
+                      Số tiền: <strong>{grandTotal.toLocaleString("vi-VN")}₫</strong>
+                    </div>
+                    <span className="text-[11px] text-slate-500 block text-center">
+                      Mở app MoMo → Quét mã QR → Xác nhận. Đơn tự động chuyển trạng thái PAID.
                     </span>
                   </div>
                 )}
@@ -299,14 +303,14 @@ export default function CartDrawer({
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"
-                      onClick={() => setPaymentMethod("VietQR")}
+                      onClick={() => setPaymentMethod("MoMo")}
                       className={`p-2.5 rounded-xl border text-center font-bold transition-all ${
-                        paymentMethod === "VietQR"
-                          ? "border-blue-600 bg-blue-50 text-blue-800 shadow-xs"
+                        paymentMethod === "MoMo"
+                          ? "border-pink-600 bg-pink-50 text-pink-800 shadow-xs"
                           : "border-slate-200 text-slate-600"
                       }`}
                     >
-                      Mã VietQR (Nhanh)
+                      Ví MoMo (Nhanh)
                     </button>
                     <button
                       type="button"
