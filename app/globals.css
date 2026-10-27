@@ -1,33 +1,228 @@
 @import "tailwindcss";
 
+/*
+  Hệ thống thiết kế VÕ SPORT (bố cục kiểu cửa hàng thể thao đa danh mục)
+  - Màu: nền trắng, ô ảnh sản phẩm xám nhạt, khối cấu trúc xanh navy (header, nút chính, dải chân trang)
+    và một màu nhấn đỏ son lấy từ logo (giá giảm, nhãn % giảm, dải khuyến mãi). Không thêm màu nhấn thứ hai.
+  - Bo góc: nút / ô nhập / thẻ / banner gần như vuông (rounded-sm = 4px), tab lọc dạng viên thuốc (rounded-full),
+    ảnh danh mục tròn. Panel trong trang tài khoản / thanh toán = rounded-lg (8px).
+  - Tiêu đề khu vực: chữ in hoa, đậm, màu --heading (navy ở chế độ sáng).
+  - Lớp z-index: header dính = z-30, drawer + lớp phủ = z-40, hộp thoại = z-50, thông báo = z-60.
+  - Chuyển động: chỉ transform/opacity, tắt hết khi người dùng bật prefers-reduced-motion.
+*/
+
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  --bg: #fdfdfd;
+  --surface: #fdfdfd;
+  --surface-2: #f1f1f3;
+  --line: #e1e1e5;
+  --line-strong: #c9c9cf;
+  --ink: #17171a;
+  --ink-2: #47474f;
+  --ink-3: #6b6b75;
+  --accent: #c8322b;
+  --accent-hover: #a92822;
+  --accent-soft: #fbeceb;
+  --accent-text: #b42d26;
+  --on-accent: #fdfdfd;
+  --success: #1d7348;
+  --success-soft: #e7f4ec;
+  --warning: #9a5a06;
+  --warning-soft: #fdf3e2;
+  --navy: #15213d;
+  --navy-2: #22305a;
+  --on-navy: #f7f8fb;
+  --on-navy-2: #b8c0d6;
+  --accent-on-navy: #ff9087;
+  --heading: #15213d;
+  --band: #f3f1ee;
+  --shadow-tint: 222 40% 12%;
+  color-scheme: light;
 }
 
-body {
-  background-color: #ffffff;
-  color: #0f172a;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  overflow-x: hidden;
+/* Mặc định luôn dùng giao diện sáng. Bảng màu tối chỉ bật khi thêm data-theme="dark" vào thẻ <html>. */
+:root[data-theme="dark"] {
+  --bg: #111113;
+  --surface: #18181b;
+  --surface-2: #222226;
+  --line: #2d2d33;
+  --line-strong: #3f3f47;
+  --ink: #ececef;
+  --ink-2: #b6b6be;
+  --ink-3: #8d8d97;
+  --accent: #cf3a32;
+  --accent-hover: #e0473f;
+  --accent-soft: #2c1a19;
+  --accent-text: #f2837b;
+  --on-accent: #fdfdfd;
+  --success: #5cc48d;
+  --success-soft: #16261d;
+  --warning: #e3a849;
+  --warning-soft: #2a2114;
+  --navy: #0f182e;
+  --navy-2: #1b2746;
+  --on-navy: #f2f4f8;
+  --on-navy-2: #a9b2c9;
+  --accent-on-navy: #ff9087;
+  --heading: #eef0f5;
+  --band: #1a1a1e;
+  --shadow-tint: 240 20% 2%;
+  color-scheme: dark;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-muted: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
+  --color-on-accent: var(--on-accent);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-on-navy: var(--on-navy);
+  --color-on-navy-2: var(--on-navy-2);
+  --color-accent-on-navy: var(--accent-on-navy);
+  --color-heading: var(--heading);
+  --color-band: var(--band);
+
+  --font-sans: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft: 0 1px 2px hsl(var(--shadow-tint) / 0.05), 0 10px 30px -14px hsl(var(--shadow-tint) / 0.18);
+  --shadow-lift: 0 2px 4px hsl(var(--shadow-tint) / 0.06), 0 24px 48px -20px hsl(var(--shadow-tint) / 0.28);
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-feature-settings: "ss01" on;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Ẩn thanh cuộn ngang của các hàng sản phẩm cuộn ngang nhưng vẫn cuộn được */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Nền "giấy kẻ ô" cho banner danh mục */
+.grid-paper {
+  background-color: var(--surface-2);
+  background-image:
+    linear-gradient(to right, hsl(var(--shadow-tint) / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(var(--shadow-tint) / 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Chuyển động: chỉ chạy khi người dùng không yêu cầu giảm chuyển động */
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: enter-up 0.7s var(--ease-out-soft) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  .fade-in {
+    animation: fade-in 0.3s ease-out both;
+  }
+
+  .toast-in {
+    animation: toast-in 0.35s var(--ease-out-soft) both;
+  }
+
+  /* Hiện dần khi cuộn tới, dùng scroll-driven animation (không cần JavaScript) */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: enter-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
